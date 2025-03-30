@@ -71,6 +71,7 @@ public class ReloadCommand extends BukkitCommand {
             }
 
             // now we know that the argument is "create"
+            createCommand((Player) sender);
             return true;
         }
 

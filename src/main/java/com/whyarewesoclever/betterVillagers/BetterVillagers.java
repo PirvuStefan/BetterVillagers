@@ -1,6 +1,10 @@
 package com.whyarewesoclever.betterVillagers;
 
+import org.bukkit.Bukkit;
+import org.bukkit.command.CommandMap;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.lang.reflect.Field;
 
 public final class BetterVillagers extends JavaPlugin {
 
@@ -11,10 +15,24 @@ public final class BetterVillagers extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
 
+        saveDefaultConfig();
+
+        try {
+            final Field bukkitCommandMap = Bukkit.getServer().getClass().getDeclaredField("commandMap");
+            bukkitCommandMap.setAccessible(true);
+            CommandMap commandMap = (CommandMap) bukkitCommandMap.get(Bukkit.getServer());
+
+            ReloadCommand reloadCommand = new ReloadCommand("bettersniffer");
+            commandMap.register("bettersniffer", reloadCommand);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        getLogger().info("BetterVillagers has been disabled!");
     }
 }
