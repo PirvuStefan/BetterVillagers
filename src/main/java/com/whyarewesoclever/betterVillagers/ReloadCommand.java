@@ -53,16 +53,16 @@ public class ReloadCommand extends BukkitCommand {
                 }
             } // we do have permission to use the command
             if( strings.length > 1) {
-                sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A00D0D") + "Too many arguments provided. Try /bettervillagers reload or /bettervillagers create");
+                sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Too many arguments provided. Try /bettervillagers reload or /bettervillagers create");
                 return false;
             }
             if( strings[0].equals("reload") ){
-                sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A00D0D") + "Reloading config file .");
+                sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Reloading config file .");
                 BetterVillagers.getInstance().reloadConfig();
                 return true;
             }
             if( !strings[0].equals("create") ){
-                sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A00D0D") + "Invalid argument provided. Try /bettervillagers reload or /bettervillagers create");
+                sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Invalid argument provided. Try /bettervillagers reload or /bettervillagers create");
                 return false;
             }
             if( !(sender instanceof Player)){
@@ -92,6 +92,7 @@ public class ReloadCommand extends BukkitCommand {
              Inventory inventory = Bukkit.createInventory(player, 9 * 6, ChatColor.DARK_AQUA + "Create custom villager trades");
              ItemStack item = new ItemStack(Material.DIAMOND);
              inventory.setItem(3, item );
+             player.openInventory(inventory);
         }
 
 }
