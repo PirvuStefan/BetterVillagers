@@ -22,8 +22,8 @@ public final class BetterVillagers extends JavaPlugin {
             bukkitCommandMap.setAccessible(true);
             CommandMap commandMap = (CommandMap) bukkitCommandMap.get(Bukkit.getServer());
 
-            ReloadCommand reloadCommand = new ReloadCommand("bettersniffer");
-            commandMap.register("bettersniffer", reloadCommand);
+            ReloadCommand reloadCommand = new ReloadCommand("bettervillagers");
+            commandMap.register("bettervillagers", reloadCommand);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
