@@ -6,6 +6,10 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -15,8 +19,10 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.bukkit.Bukkit.getLogger;
+import static org.bukkit.Bukkit.getServer;
 
-public class ReloadCommand extends BukkitCommand {
+public class ReloadCommand extends BukkitCommand implements Listener {
+
 
         public ReloadCommand(String name) {
             super(name);
@@ -72,6 +78,8 @@ public class ReloadCommand extends BukkitCommand {
 
             // now we know that the argument is "create"
             createCommand((Player) sender);
+            //BetterVillagers.glass++;
+            getLogger().info("BetterVillagers.glass = " + BetterVillagers.glass);
             return true;
         }
 
@@ -89,10 +97,31 @@ public class ReloadCommand extends BukkitCommand {
 
         public void createCommand(Player player){
             // create the command
-             Inventory inventory = Bukkit.createInventory(player, 9 * 6, ChatColor.DARK_AQUA + "Create custom villager trades");
-             ItemStack item = new ItemStack(Material.DIAMOND);
-             inventory.setItem(3, item );
+             Inventory inventory = Bukkit.createInventory(player, 9 * 6, ChatColor.DARK_AQUA + "ᴄʀᴇᴀᴛᴇ ᴄᴜꜱᴛᴏᴍ ᴛʀᴀᴅᴇꜱ");
+             ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+             for( int i = 0; i < 9 * 6; i++){
+                 inventory.setItem(i, item);
+             }
+
+             getServer().getPluginManager().registerEvents(this, BetterVillagers.getInstance());
+             //inventory.setItem(3, item );
              player.openInventory(inventory);
+            if ( ( player.getOpenInventory().getTopInventory().equals(inventory) ))
+                BetterVillagers.glass++;
         }
+
+    @EventHandler
+    public void onInventoryClick(InventoryClickEvent event) {
+
+            getLogger().info("BetterVillagers.glass = " + BetterVillagers.glass);
+            if( BetterVillagers.glass % 2 == 1)
+                return;
+
+        if (event.getInventory().getHolder() instanceof Player) {
+            if (event.getCurrentItem() != null && event.getCurrentItem().getType() == Material.BLACK_STAINED_GLASS_PANE) {
+                event.setCancelled(true);
+            }
+        }
+    }
 
 }

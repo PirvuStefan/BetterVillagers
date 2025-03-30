@@ -8,6 +8,7 @@ import java.lang.reflect.Field;
 
 public final class BetterVillagers extends JavaPlugin {
 
+    public static int glass = 0 ;
     public static BetterVillagers getInstance() {
         return getPlugin(BetterVillagers.class);
     }
@@ -27,6 +28,8 @@ public final class BetterVillagers extends JavaPlugin {
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
+
+        //getServer().getPluginManager().registerEvents(new ReloadCommand("bettervillagers").onInventoryClick(), this);
 
     }
 
