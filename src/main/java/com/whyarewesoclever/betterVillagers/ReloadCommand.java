@@ -11,6 +11,7 @@ import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -114,10 +115,11 @@ public class ReloadCommand extends BukkitCommand implements Listener {
     public void onInventoryClick(InventoryClickEvent event) {
 
             getLogger().info("BetterVillagers.glass = " + BetterVillagers.glass);
-            if( BetterVillagers.glass % 2 == 1)
-                return;
 
-        if (event.getInventory().getHolder() instanceof Player) {
+            Player player = (Player) event.getWhoClicked();
+            InventoryView view = player.getOpenInventory();
+            boolean block = !view.getTitle().equals(ChatColor.DARK_AQUA + "ᴄʀᴇᴀᴛᴇ ᴄᴜꜱᴛᴏᴍ ᴛʀᴀᴅᴇꜱ");
+        if (event.getInventory().getHolder() instanceof Player && block) {
             if (event.getCurrentItem() != null && event.getCurrentItem().getType() == Material.BLACK_STAINED_GLASS_PANE) {
                 event.setCancelled(true);
             }
