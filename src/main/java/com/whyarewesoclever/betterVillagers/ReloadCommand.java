@@ -23,7 +23,8 @@ import static org.bukkit.Bukkit.getLogger;
 import static org.bukkit.Bukkit.getServer;
 
 public class ReloadCommand extends BukkitCommand implements Listener {
-
+    Player player_1;
+    Inventory inventory_test = Bukkit.createInventory(player_1, 9 * 6, ChatColor.DARK_AQUA + "ᴄʀᴇᴀᴛᴇ ᴄᴜꜱᴛᴏᴍ ᴛʀᴀᴅᴇꜱ");
 
         public ReloadCommand(String name) {
             super(name);
@@ -80,7 +81,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
             // now we know that the argument is "create"
             createCommand((Player) sender);
             //BetterVillagers.glass++;
-            getLogger().info("BetterVillagers.glass = " + BetterVillagers.glass);
+
             return true;
         }
 
@@ -107,19 +108,24 @@ public class ReloadCommand extends BukkitCommand implements Listener {
              getServer().getPluginManager().registerEvents(this, BetterVillagers.getInstance());
              //inventory.setItem(3, item );
              player.openInventory(inventory);
-            if ( ( player.getOpenInventory().getTopInventory().equals(inventory) ))
-                BetterVillagers.glass++;
+           // if ( ( player.getOpenInventory().getTopInventory().equals(inventory) ))
+              //  BetterVillagers.glass++;
         }
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
 
-            getLogger().info("BetterVillagers.glass = " + BetterVillagers.glass);
+
 
             Player player = (Player) event.getWhoClicked();
             InventoryView view = player.getOpenInventory();
-            boolean block = !view.getTitle().equals(ChatColor.DARK_AQUA + "ᴄʀᴇᴀᴛᴇ ᴄᴜꜱᴛᴏᴍ ᴛʀᴀᴅᴇꜱ");
+            //boolean block = !view.getTitle().equals(ChatColor.DARK_AQUA + "ᴄʀᴇᴀᴛᴇ ᴄᴜꜱᴛᴏᴍ ᴛʀᴀᴅᴇꜱ");
+            boolean block = view.getTitle().equals(ChatColor.DARK_AQUA + "ᴄʀᴇᴀᴛᴇ ᴄᴜꜱᴛᴏᴍ ᴛʀᴀᴅᴇꜱ");
+        getLogger().info(view.getTitle());
+
+
         if (event.getInventory().getHolder() instanceof Player && block) {
+
             if (event.getCurrentItem() != null && event.getCurrentItem().getType() == Material.BLACK_STAINED_GLASS_PANE) {
                 event.setCancelled(true);
             }

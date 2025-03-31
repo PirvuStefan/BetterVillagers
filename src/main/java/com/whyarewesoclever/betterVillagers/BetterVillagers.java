@@ -8,7 +8,7 @@ import java.lang.reflect.Field;
 
 public final class BetterVillagers extends JavaPlugin {
 
-    public static int glass = 0 ;
+
     public static BetterVillagers getInstance() {
         return getPlugin(BetterVillagers.class);
     }
