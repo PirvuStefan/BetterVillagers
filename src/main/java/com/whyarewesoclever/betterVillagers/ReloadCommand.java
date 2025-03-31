@@ -104,6 +104,13 @@ public class ReloadCommand extends BukkitCommand implements Listener {
              for( int i = 0; i < 9 * 6; i++){
                  inventory.setItem(i, item);
              }
+             item = new ItemStack(Material.BARRIER);
+             inventory.setItem(49, item);
+             item = new ItemStack(Material.AIR);
+                inventory.setItem(19, item);
+                inventory.setItem(25, item);
+             item = new ItemStack(Material.GRASS_BLOCK);
+                inventory.setItem(40, item);
 
              getServer().getPluginManager().registerEvents(this, BetterVillagers.getInstance());
              //inventory.setItem(3, item );
@@ -122,12 +129,17 @@ public class ReloadCommand extends BukkitCommand implements Listener {
             //boolean block = !view.getTitle().equals(ChatColor.DARK_AQUA + "ᴄʀᴇᴀᴛᴇ ᴄᴜꜱᴛᴏᴍ ᴛʀᴀᴅᴇꜱ");
             boolean block = view.getTitle().equals(ChatColor.DARK_AQUA + "ᴄʀᴇᴀᴛᴇ ᴄᴜꜱᴛᴏᴍ ᴛʀᴀᴅᴇꜱ");
         getLogger().info(view.getTitle());
-
+        if( !block) return;
 
         if (event.getInventory().getHolder() instanceof Player && block) {
 
             if (event.getCurrentItem() != null && event.getCurrentItem().getType() == Material.BLACK_STAINED_GLASS_PANE) {
                 event.setCancelled(true);
+            }
+            if( event.getCurrentItem() != null && event.getCurrentItem().getType() == Material.BARRIER){
+                event.setCancelled(true);
+                player.closeInventory();
+                HandlerList.unregisterAll(this);
             }
         }
     }
