@@ -127,6 +127,14 @@ public class ReloadCommand extends BukkitCommand implements Listener {
               //  BetterVillagers.glass++;
         }
 
+        boolean checkInventoryComplete(Inventory inventory){
+            int i =  28;
+                if( inventory.getItem(i) == null || inventory.getItem(i).getType() == Material.AIR)
+                    return false;
+                i = 34;
+            return inventory.getItem(i) != null && inventory.getItem(i).getType() != Material.AIR;
+        }
+
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
 
@@ -134,6 +142,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
 
             Player player = (Player) event.getWhoClicked();
             InventoryView view = player.getOpenInventory();
+             Inventory inventory = event.getInventory();
             //boolean block = !view.getTitle().equals(ChatColor.DARK_AQUA + "ᴄʀᴇᴀᴛᴇ ᴄᴜꜱᴛᴏᴍ ᴛʀᴀᴅᴇꜱ");
             boolean block = view.getTitle().equals(ChatColor.DARK_AQUA + "ᴄʀᴇᴀᴛᴇ ᴄᴜꜱᴛᴏᴍ ᴛʀᴀᴅᴇꜱ");
         getLogger().info(view.getTitle());
@@ -149,7 +158,26 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                 player.closeInventory();
                 HandlerList.unregisterAll(this);
             }
+            if( event.getCurrentItem() != null && event.getCurrentItem().getType() == Material.EXPERIENCE_BOTTLE){
+                event.setCancelled(true);
+
+              if( !checkInventoryComplete(inventory) ){
+                  player.closeInventory();
+
+              }
+              else{
+                  player.sendMessage("Trade created successfully .");
+                    player.closeInventory();
+                    HandlerList.unregisterAll(this);
+                    // logic to parse the object and save it to the config file ( json for each item )
+              }
+
+
+
+            }
         }
     }
+
+
 
 }
