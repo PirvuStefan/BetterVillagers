@@ -1,5 +1,8 @@
 package com.whyarewesoclever.betterVillagers;
 
+import de.tr7zw.nbtapi.NBT;
+import de.tr7zw.nbtapi.NBTItem;
+import de.tr7zw.nbtapi.iface.ReadWriteNBT;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -105,12 +108,17 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                  inventory.setItem(i, item);
              }
              item = new ItemStack(Material.BARRIER);
-             inventory.setItem(49, item);
+            NBTItem nbtItem1 = new NBTItem(item);
+
+            nbtItem1.mergeCompound(NBT.parseNBT("{display:{Name:'[\"\",{\"text\":\"Close\",\"italic\":false}]',Lore:['[\"\"]','[\"\",{\"text\":\"Leave the menu\",\"italic\":false}]']}}"));
+             inventory.setItem(49, nbtItem1.getItem());
+
+
              item = new ItemStack(Material.AIR);
-                inventory.setItem(19, item);
-                inventory.setItem(25, item);
-             item = new ItemStack(Material.GRASS_BLOCK);
-                inventory.setItem(40, item);
+                inventory.setItem(28, item);
+                inventory.setItem(34, item);
+             item = new ItemStack(Material.EXPERIENCE_BOTTLE);
+                inventory.setItem(31, item);
 
              getServer().getPluginManager().registerEvents(this, BetterVillagers.getInstance());
              //inventory.setItem(3, item );
