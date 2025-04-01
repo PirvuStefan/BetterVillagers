@@ -172,6 +172,17 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                   player.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterSniffer] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Trade created successfully .");
                   player.playSound(player.getLocation(), org.bukkit.Sound.BLOCK_AMETHYST_BLOCK_BREAK, 10, 1);
                   // here we should create the trade file and save it to the plugin's directory
+
+                   // get the item from index 28 and 34
+                    ItemStack item1 = inventory.getItem(28);
+                    ItemStack item2 = inventory.getItem(34);
+                    NBTItem nbtItem1 = new NBTItem(item1);
+                    NBTItem nbtItem2 = new NBTItem(item2);
+                    String json1 = nbtItem1.toString();
+                    String json2 = nbtItem2.toString();
+                    getLogger().info(json1);
+                    getLogger().info(json2);
+                    // save the json to the config file
                     player.closeInventory();
                     HandlerList.unregisterAll(this);
                     // logic to parse the object and save it to the config file ( json for each item )
@@ -182,6 +193,8 @@ public class ReloadCommand extends BukkitCommand implements Listener {
             }
         }
     }
+
+
 
 
 

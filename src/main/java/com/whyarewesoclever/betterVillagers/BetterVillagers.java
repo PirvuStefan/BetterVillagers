@@ -4,11 +4,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
 
 public final class BetterVillagers extends JavaPlugin {
 
-
+    public final static Map<String, VillagerTrade> villagerTrades = new HashMap<>();
     public static BetterVillagers getInstance() {
         return getPlugin(BetterVillagers.class);
     }
@@ -29,6 +32,24 @@ public final class BetterVillagers extends JavaPlugin {
             e.printStackTrace();
         }
 
+        File folder = getDataFolder();
+        if (!folder.exists()) {
+            if (folder.mkdir()) {
+                getLogger().info("Folder 'BetterVillagers' created successfully!");
+            } else {
+                getLogger().info("Failed to create folder 'BetterVillagers'.");
+            }
+        }
+        File folder2 = new File(getDataFolder(), "drops");
+        if (!folder2.exists()) {
+            if (folder2.mkdir()) {
+                getLogger().info("Folder 'drops' created successfully!");
+            } else {
+                getLogger().info("Failed to create folder 'drops'.");
+            }
+        }
+
+
         //getServer().getPluginManager().registerEvents(new ReloadCommand("bettervillagers").onInventoryClick(), this);
 
     }
@@ -39,3 +60,7 @@ public final class BetterVillagers extends JavaPlugin {
         getLogger().info("BetterVillagers has been disabled!");
     }
 }
+
+
+
+
