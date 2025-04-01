@@ -6,6 +6,11 @@ public class VillagerTrade {
     String material_input, material_output, json_input, json_output;
     public List< String > biomes;
     public List < String > bannedWorlds;
+    String day_night = "both"; // default value
+    // modifiers for it to be day, night, or both
+    String weather = "any"; // default value
+    // modifiers for it to be clear, rain, thunder or any
+
     public VillagerTrade(String material1, String material2, String json1,String json2){
         this.material_input = material1;
         this.material_output = material2;
