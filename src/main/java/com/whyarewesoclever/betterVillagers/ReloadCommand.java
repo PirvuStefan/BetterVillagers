@@ -82,8 +82,9 @@ public class ReloadCommand extends BukkitCommand implements Listener {
             }
 
             // now we know that the argument is "create"
+
             createCommand((Player) sender);
-            //BetterVillagers.glass++;
+
 
             return true;
         }
@@ -101,6 +102,8 @@ public class ReloadCommand extends BukkitCommand implements Listener {
         }
 
         public void createCommand(Player player){
+
+
             // create the command
              Inventory inventory = Bukkit.createInventory(player, 9 * 6, ChatColor.DARK_AQUA + "ᴄʀᴇᴀᴛᴇ ᴄᴜꜱᴛᴏᴍ ᴛʀᴀᴅᴇꜱ");
              ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
@@ -163,10 +166,12 @@ public class ReloadCommand extends BukkitCommand implements Listener {
 
               if( !checkInventoryComplete(inventory) ){
                   player.closeInventory();
-
+                  player.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Please fill all the air slots with the items you want to create a trade for .\n First one is what you give the villager, second one is what you get .");
               }
               else{
-                  player.sendMessage("Trade created successfully .");
+                  player.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterSniffer] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Trade created successfully .");
+                  player.playSound(player.getLocation(), org.bukkit.Sound.BLOCK_AMETHYST_BLOCK_BREAK, 10, 1);
+                  // here we should create the trade file and save it to the plugin's directory
                     player.closeInventory();
                     HandlerList.unregisterAll(this);
                     // logic to parse the object and save it to the config file ( json for each item )
