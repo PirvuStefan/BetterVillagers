@@ -166,7 +166,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
 
               if( !checkInventoryComplete(inventory) ){
                   player.closeInventory();
-                  player.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Please fill all the air slots with the items you want to create a trade for .\n First one is what you give the villager, second one is what you get .");
+                  player.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Please fill all the air slots with the items you want to create a trade .\n First one is what you give the villager, second one is what you get .");
               }
               else{
                   player.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterSniffer] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Trade created successfully .");
