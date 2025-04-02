@@ -109,6 +109,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
             // create the command
              Inventory inventory = Bukkit.createInventory(player, 9 * 6, ChatColor.DARK_AQUA + "ᴄʀᴇᴀᴛᴇ ᴄᴜꜱᴛᴏᴍ ᴛʀᴀᴅᴇꜱ");
              ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+
              for( int i = 0; i < 9 * 6; i++){
                  inventory.setItem(i, item);
              }
@@ -213,7 +214,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
             File[] files = folder.listFiles();
             boolean found = false;
             for (File file : files) {
-                if (file.getName().equals(name_id + ".yml")) {
+                if (file.getName().equals(name_id + (i == 0 ? "" : i )+ ".yml") ) {
                     i++;
                     found = true;
                     break;
