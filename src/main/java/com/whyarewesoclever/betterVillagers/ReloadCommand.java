@@ -65,7 +65,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                     return false;
                 }
             } // we do have permission to use the command
-            if( strings.length > 1) {
+            if( strings.length > 1 && strings[0].equals("create") ){
                 sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Too many arguments provided. Try /bettervillagers reload or /bettervillagers create");
                 return false;
             }
@@ -119,10 +119,27 @@ public class ReloadCommand extends BukkitCommand implements Listener {
             if( args.length == 3 && args[2].startsWith("w") ){
                 return Collections.singletonList("weather");
             }
+            if( args[2].equals("weather") ) {
+                if (args.length == 4 && args[3].startsWith("a"))
+                    return Collections.singletonList("any");
+                if (args.length == 4 && args[3].startsWith("r"))
+                    return Collections.singletonList("rain");
+                if (args.length == 4 && args[3].startsWith("t"))
+                    return Collections.singletonList("thunder"); // can't do switch case here
+                if (args.length == 4 && args[3].startsWith("c"))
+                    return Collections.singletonList("clear");
+            }
             if( args.length == 3 && args[2].startsWith("d") ){
                 return Collections.singletonList("day_night");
             }
-
+            if( args[2].equals("day_night") ) {
+                if (args.length == 4 && args[3].startsWith("b"))
+                    return Collections.singletonList("both");
+                if (args.length == 4 && args[3].startsWith("d"))
+                    return Collections.singletonList("day");
+                if (args.length == 4 && args[3].startsWith("n"))
+                    return Collections.singletonList("night");
+            }
             return Collections.emptyList();
         }
 
