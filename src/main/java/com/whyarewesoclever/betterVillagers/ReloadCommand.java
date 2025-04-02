@@ -51,11 +51,11 @@ public class ReloadCommand extends BukkitCommand implements Listener {
             if (sender instanceof Player) {
                 boolean permission = sender.hasPermission("bettervillagers.commands");
                 if (!permission) {
-                    if (s.equals("reload")) {
+                    if (strings[0].equals("reload")) {
                         if (sender.hasPermission("bettervillagers.reload"))
                             permission = true;
                     }
-                    if (s.equals("create")) {
+                    if (strings[0].equals("create") || strings[0].equals("set")) {
                         if (sender.hasPermission("bettervillagers.create"))
                             permission = true;
                     }
@@ -74,18 +74,24 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                 BetterVillagers.getInstance().reloadConfig();
                 return true;
             }
-            if( !strings[0].equals("create") ){
+            if( !strings[0].equals("create") && !strings[0].equals("set") ){
                 sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Invalid argument provided. Try /bettervillagers reload or /bettervillagers create");
                 return false;
             }
-            if( !(sender instanceof Player)){
+            if( !(sender instanceof Player) && strings[0].equals("create") ){
                 getLogger().info("This command can only be run by a player .");
                 return false;
             }
 
+            // bettervillagers set name.yml whether rain
+
+
             // now we know that the argument is "create"
 
-            createCommand((Player) sender);
+
+            // bettervillagers create
+            if( strings[0].equals("create")) createCommand((Player) sender); // we do have the create command here
+
 
 
             return true;
@@ -94,12 +100,29 @@ public class ReloadCommand extends BukkitCommand implements Listener {
         @Override
         public @Nullable List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
 
+
+            // bettervillagers  example    to      be
+            //                  args[0] args[1] args[2]
+            //bettervillagers set name.yml whether rain
             if (args.length == 1 && args[0].startsWith("r")) {
                 return Collections.singletonList("reload");
             }
             if( args.length == 1 && args[0].startsWith("c") ){
                 return Collections.singletonList("create");
             }
+            if( args.length == 1 && args[0].startsWith("s") ){
+                return Collections.singletonList("set");
+            }
+            if( args.length == 2 && args[0].equals("set") ){
+                return Collections.singletonList("name.yml"); // here we should return the list of files in the Drops folder
+            }
+            if( args.length == 3 && args[2].startsWith("w") ){
+                return Collections.singletonList("weather");
+            }
+            if( args.length == 3 && args[2].startsWith("d") ){
+                return Collections.singletonList("day_night");
+            }
+
             return Collections.emptyList();
         }
 
