@@ -19,6 +19,8 @@ import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -186,11 +188,56 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                     player.closeInventory();
                     HandlerList.unregisterAll(this);
                     // logic to parse the object and save it to the config file ( json for each item )
+                    String name_id = item1.getType().name() + "_" + item2.getType().name(); // name of the file
+                    name_id = generateUniqueId(name_id);
+
+                  try {
+                      java.nio.file.Files.createFile(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + name_id + ".yml").toPath());
+                  } catch (IOException e) {
+                      e.printStackTrace();
+                  }
+
+                    WriteToFile(name_id, item1.getType().name(), item2.getType().name(), json1, json2);
               }
 
 
 
             }
+        }
+    }
+
+    private String generateUniqueId(String name_id){
+        File folder = new File(BetterVillagers.getInstance().getDataFolder(), "Drops");
+        int i = 0;
+        while (true) {
+            File[] files = folder.listFiles();
+            boolean found = false;
+            for (File file : files) {
+                if (file.getName().equals(name_id + ".yml")) {
+                    i++;
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) return name_id + (i == 0 ? "" : i);
+        }
+    }
+
+    private void WriteToFile(String fileName,String mat1, String mat2, String json1, String json2){
+        // write the json to the file
+        try (java.io.FileWriter writer = new java.io.FileWriter(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml"))) {
+            writer.write("material_input: " + mat1 + "\n");
+            writer.write("json_input: " + json1 + "\n");
+            writer.write("material_output: " + mat2 + "\n");
+            writer.write("json_output: " + json2 + "\n");
+            writer.write("biomes: []\n"); // default value is empty ( that means all biomes )
+            writer.write("bannedWorlds: []\n"); // default value is empty ( that means no worlds are banned )
+            writer.write("day_night: both\n"); // default value is both ( that means it can be traded at any time )
+            writer.write("weather: any\n"); // default value is any ( that means it can be traded at any weather )
+
+        } catch (IOException e) {
+            getLogger().warning("Could not write to file " + fileName + ".yml");
+            throw new RuntimeException(e);
         }
     }
 

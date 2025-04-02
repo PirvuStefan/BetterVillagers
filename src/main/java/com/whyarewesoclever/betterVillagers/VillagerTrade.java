@@ -25,6 +25,15 @@ public class VillagerTrade {
         this.bannedWorlds = bannedWorlds;
     }
 
+    public VillagerTrade(String example){
+        this.day_night = example;
+    }
+    public VillagerTrade(String example, String example2){
+        this.day_night = example;
+        this.weather = example2;
+    }
+
+
     public String getMaterialInput() {
         return material_input;
     }
