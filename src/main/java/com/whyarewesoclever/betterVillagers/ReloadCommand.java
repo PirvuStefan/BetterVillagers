@@ -42,7 +42,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
         public boolean execute(CommandSender sender, String s, String[] strings){
             if (strings.length == 0) {
                 if (!(sender instanceof Player)) {
-                    getLogger().info("No argument provided. Try /bettersniffer reload");
+                    getLogger().info("No argument provided. Try /bettervillagers reload");
 
                 }
                 return false;
@@ -195,7 +195,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                   player.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Please fill all the air slots with the items you want to create a trade .\n First one is what you give the villager, second one is what you get .");
               }
               else{
-                  player.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterSniffer] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Trade created successfully .");
+                  player.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Trade created successfully .");
                   player.playSound(player.getLocation(), org.bukkit.Sound.BLOCK_AMETHYST_BLOCK_BREAK, 10, 1);
                   // here we should create the trade file and save it to the plugin's directory
 
