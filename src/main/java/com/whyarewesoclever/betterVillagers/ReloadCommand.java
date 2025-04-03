@@ -28,6 +28,7 @@ import static com.whyarewesoclever.betterVillagers.BetterVillagers.keys;
 import static org.bukkit.Bukkit.getLogger;
 import static org.bukkit.Bukkit.getServer;
 
+
 public class ReloadCommand extends BukkitCommand implements Listener {
     Player player_1;
     Inventory inventory_test = Bukkit.createInventory(player_1, 9 * 6, ChatColor.DARK_AQUA + "ᴄʀᴇᴀᴛᴇ ᴄᴜꜱᴛᴏᴍ ᴛʀᴀᴅᴇꜱ");
@@ -121,8 +122,8 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                 return Collections.singletonList("set");
             }
             if (args.length == 2 && args[0].equals("set")) {
-                return Collections.singletonList("name.yml");
-                //return keys; // here we should return the list of files in the Drops folder
+               // return Collections.singletonList("name.yml");
+                return keys; // here we should return the list of files in the Drops folder
             }
             if (args.length == 3 && args[2].startsWith("w")) {
                 return Collections.singletonList("weather");
@@ -153,7 +154,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
 
         public void createCommand(Player player){
 
-
+            player.playSound(player.getLocation(), org.bukkit.Sound.UI_LOOM_TAKE_RESULT, 10, 1);
             // create the command
              Inventory inventory = Bukkit.createInventory(player, 9 * 6, ChatColor.DARK_AQUA + "ᴄʀᴇᴀᴛᴇ ᴄᴜꜱᴛᴏᴍ ᴛʀᴀᴅᴇꜱ");
              ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);

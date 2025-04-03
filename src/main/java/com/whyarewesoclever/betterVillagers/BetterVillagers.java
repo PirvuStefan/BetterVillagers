@@ -6,13 +6,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public final class BetterVillagers extends JavaPlugin {
 
-    public static List<String> keys;
+    public static List<String> keys = new ArrayList<>();
 
     public final static Map<String, VillagerTrade> villagerTrades = new HashMap<>();
     public static BetterVillagers getInstance() {
@@ -53,10 +54,6 @@ public final class BetterVillagers extends JavaPlugin {
         }
 
         initialiseKeys();
-
-
-        //getServer().getPluginManager().registerEvents(new ReloadCommand("bettervillagers").onInventoryClick(), this);
-
     }
 
     @Override
@@ -76,13 +73,8 @@ public final class BetterVillagers extends JavaPlugin {
                     String name_id = name.substring(0, name.length() - 4);
                     getLogger().info("File name: " + name);
                     keys.add(name_id);
-
                 }
             }
         }
     }
 }
-
-
-
-
