@@ -71,6 +71,7 @@ public final class BetterVillagers extends JavaPlugin {
         if (files != null) {
             for (File file : files) {
                 String key = file.getName().replace(".yml", "");
+                getLogger().info("Key: " + key);
                 keys.add(key);
             }
         }
