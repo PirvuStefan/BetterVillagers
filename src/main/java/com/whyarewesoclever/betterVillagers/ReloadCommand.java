@@ -90,6 +90,16 @@ public class ReloadCommand extends BukkitCommand implements Listener {
 
 
             // bettervillagers create
+            if( strings.length == 4 ){ // right now strings[0].equals("set") is reddundant
+                if( strings[2].equals("weather") ){
+                    WriteWheaterToFile(strings[1], strings[3]);
+                    sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Weather set to " + strings[3] + " for the trade " + strings[1]);
+                }
+                if( strings[2].equals("day_night") ){
+                    WriteDay_NightToFile(strings[1], strings[3]);
+                    sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Day/Night set to " + strings[3] + " for the trade " + strings[1]);
+                }
+            }
             if( strings[0].equals("create")) createCommand((Player) sender); // we do have the create command here
 
 
@@ -275,6 +285,45 @@ public class ReloadCommand extends BukkitCommand implements Listener {
             writer.write("bannedWorlds: []\n"); // default value is empty ( that means no worlds are banned )
             writer.write("day_night: both\n"); // default value is both ( that means it can be traded at any time )
             writer.write("weather: any\n"); // default value is any ( that means it can be traded at any weather )
+
+        } catch (IOException e) {
+            getLogger().warning("Could not write to file " + fileName + ".yml");
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void WriteWheaterToFile(String fileName, String weather) {
+        // write the json to the file
+        try (java.io.FileWriter writer = new java.io.FileWriter(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml"), true)) {
+
+            List<String> lines = java.nio.file.Files.readAllLines(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml").toPath());
+
+            for (int i = 0; i < lines.size(); i++) {
+                if (lines.get(i).startsWith("weather: ")) {
+                    lines.set(i, "weather: " + weather + "\n");
+                }
+            }
+
+
+
+        } catch (IOException e) {
+            getLogger().warning("Could not write to file " + fileName + ".yml");
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void WriteDay_NightToFile(String fileName, String day_night){
+        try (java.io.FileWriter writer = new java.io.FileWriter(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml"), true)) {
+
+            List<String> lines = java.nio.file.Files.readAllLines(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml").toPath());
+
+            for (int i = 0; i < lines.size(); i++) {
+                if (lines.get(i).startsWith("day_night: ")) {
+                    lines.set(i, "day_night: " + day_night + "\n");
+                }
+            }
+
+
 
         } catch (IOException e) {
             getLogger().warning("Could not write to file " + fileName + ".yml");
