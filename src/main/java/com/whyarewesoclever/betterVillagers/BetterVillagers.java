@@ -7,9 +7,12 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public final class BetterVillagers extends JavaPlugin {
+
+    public static List<String> keys;
 
     public final static Map<String, VillagerTrade> villagerTrades = new HashMap<>();
     public static BetterVillagers getInstance() {
@@ -49,6 +52,8 @@ public final class BetterVillagers extends JavaPlugin {
             }
         }
 
+        initialiseKeys();
+
 
         //getServer().getPluginManager().registerEvents(new ReloadCommand("bettervillagers").onInventoryClick(), this);
 
@@ -58,6 +63,17 @@ public final class BetterVillagers extends JavaPlugin {
     public void onDisable() {
         // Plugin shutdown logic
         getLogger().info("BetterVillagers has been disabled!");
+    }
+
+    private void initialiseKeys(){
+        File folder = new File(getDataFolder(), "drops");
+        File[] files = folder.listFiles((dir, name) -> name.endsWith(".yml"));
+        if (files != null) {
+            for (File file : files) {
+                String key = file.getName().replace(".yml", "");
+                keys.add(key);
+            }
+        }
     }
 }
 
