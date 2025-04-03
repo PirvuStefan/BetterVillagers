@@ -66,12 +66,18 @@ public final class BetterVillagers extends JavaPlugin {
     }
 
     private void initialiseKeys(){
+
         File folder = new File(getDataFolder(), "drops");
-        File[] files = folder.listFiles((dir, name) -> name.endsWith(".yml"));
-        if (files != null) {
-            for (File file : files) {
-                String key = file.getName().replace(".yml", "");
-                keys.add(key);
+        File[] listOfFiles = folder.listFiles();
+        if (listOfFiles != null) {
+            for (File file : listOfFiles) {
+                if (file.isFile()) {
+                    String name = file.getName();
+                    String name_id = name.substring(0, name.length() - 4);
+                    getLogger().info("File name: " + name);
+                    keys.add(name_id);
+
+                }
             }
         }
     }

@@ -121,7 +121,8 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                 return Collections.singletonList("set");
             }
             if (args.length == 2 && args[0].equals("set")) {
-                return keys; // here we should return the list of files in the Drops folder
+                return Collections.singletonList("name.yml");
+                //return keys; // here we should return the list of files in the Drops folder
             }
             if (args.length == 3 && args[2].startsWith("w")) {
                 return Collections.singletonList("weather");
