@@ -300,9 +300,14 @@ public class ReloadCommand extends BukkitCommand implements Listener {
             for (int i = 0; i < lines.size(); i++) {
                 if (lines.get(i).startsWith("weather: ")) {
                     lines.set(i, "weather: " + weather + "\n");
+                    //getLogger().info(lines.get(i));
                 }
+                getLogger().info(lines.get(i));
             }
+            java.nio.file.Files.write(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml").toPath(), lines);
 
+                // this is decent, but it does delete the file and create a new one with the updated content ( not ideal )
+                // since we are using the same file, we should just update the content of the file cause we lose the 'date created' and 'last modified' attributes
 
 
         } catch (IOException e) {
