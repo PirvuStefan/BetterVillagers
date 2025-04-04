@@ -302,7 +302,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                     //getLogger().info(lines.get(i));
                 }
                 getLogger().info(lines.get(i));
-            }
+            } // da
             java.nio.file.Files.write(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml").toPath(), lines);
 
                 // this is decent, but it does delete the file and create a new one with the updated content ( not ideal )
