@@ -94,7 +94,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
             // bettervillagers create
             if( strings.length == 4 ){ // right now strings[0].equals("set") is reddundant
                 if( strings[2].equals("weather") ){
-                    WriteWheaterToFile(strings[1], strings[3]);
+                    WriteWeatherToFile(strings[1], strings[3]);
                     sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Weather set to " + strings[3] + " for the trade " + strings[1]);
                 }
                 if( strings[2].equals("day_night") ){
@@ -295,7 +295,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
         }
     }
 
-    private void WriteWheaterToFile(String fileName, String weather) {
+    private void WriteWeatherToFile(String fileName, String weather) {
         // write the json to the file
         try (java.io.FileWriter writer = new java.io.FileWriter(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml"), true)) {
 
