@@ -18,6 +18,18 @@ public class VillagerTrade {
         this.json_input = json1;
         this.json_output = json2;
     }
+    public VillagerTrade(String material1, String material2, String json1,String json2, int number1, int number2, List<String> biomes, List<String> bannedWorlds, String day_night, String weather){
+        this.material_input = material1;
+        this.material_output = material2;
+        this.json_input = json1;
+        this.json_output = json2;
+        this.amount_input = number1;
+        this.amount_output = number2;
+        this.biomes = biomes;
+        this.bannedWorlds = bannedWorlds;
+        this.day_night = day_night;
+        this.weather = weather;
+    }
     public VillagerTrade(int number1, int number2){
         this.amount_input = number1;
         this.amount_output = number2;
