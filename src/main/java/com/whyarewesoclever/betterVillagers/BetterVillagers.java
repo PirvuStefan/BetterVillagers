@@ -9,10 +9,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.bukkit.Bukkit.getLogger;
 
@@ -132,16 +129,12 @@ public final class BetterVillagers extends JavaPlugin {
                 } else if (line.startsWith("amount_output: ")) {
                     amount_output = Integer.parseInt(line.substring(15));
                 } else if (line.startsWith("biomes: ")) {
-                    String[] biomeArray = line.substring(9, line.length() - 1).split(", ");
-                    for (String biome : biomeArray) {
-                        biomes.add(biome);
-                    }
+                    biomes = Arrays.asList(line.substring(9, line.length() - 1).split(", "));
                 } else if (line.startsWith("bannedWorlds: ")) {
-                    String[] bannedWorldsArray = line.substring(16, line.length() - 1).split(", ");
-                    for (String world : bannedWorldsArray) {
-                        bannedWorlds.add(world);
-                    }
-                } else if (line.startsWith("day_night: ")) {
+                    if( 16 <= line.length() - 1) bannedWorlds = Arrays.asList(line.substring(16, line.length() - 1).split(", "));
+                    else bannedWorlds = Arrays.asList(line.substring(16).split(", "));
+
+                }  else if (line.startsWith("day_night: ")) {
                     day_night = line.substring(11);
                 } else if (line.startsWith("weather: ")) {
                     weather = line.substring(9);
@@ -156,7 +149,10 @@ public final class BetterVillagers extends JavaPlugin {
             getLogger().info("amount_input: " + amount_input);
             getLogger().info("amount_output: " + amount_output);
             getLogger().info("biomes: " + biomes);
+            getLogger().info("biomes is empty: " + biomes.size());
+            getLogger().info("biomes first element: " + (biomes.isEmpty() ? "none" : biomes.get(0)));
             getLogger().info("banned_worlds: " + bannedWorlds);
+            getLogger().info("banned_worlds is empty: " + bannedWorlds.size());
             getLogger().info("day_night: " + day_night);
             getLogger().info("weather: " + weather);
             // Create a new VillagerTrade object with the parsed values
