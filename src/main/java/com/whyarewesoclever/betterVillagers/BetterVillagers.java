@@ -132,12 +132,12 @@ public final class BetterVillagers extends JavaPlugin {
                 } else if (line.startsWith("amount_output: ")) {
                     amount_output = Integer.parseInt(line.substring(15));
                 } else if (line.startsWith("biomes: ")) {
-                    String[] biomeArray = line.substring(8).split(", ");
+                    String[] biomeArray = line.substring(9, line.length() - 1).split(", ");
                     for (String biome : biomeArray) {
                         biomes.add(biome);
                     }
-                } else if (line.startsWith("banned_worlds: ")) {
-                    String[] bannedWorldsArray = line.substring(16).split(", ");
+                } else if (line.startsWith("bannedWorlds: ")) {
+                    String[] bannedWorldsArray = line.substring(16, line.length() - 1).split(", ");
                     for (String world : bannedWorldsArray) {
                         bannedWorlds.add(world);
                     }
@@ -148,7 +148,18 @@ public final class BetterVillagers extends JavaPlugin {
                 }
             }
 
-
+            getLogger().info("Parsed file: " + file.getName());
+            getLogger().info("material_input: " + material_input);
+            getLogger().info("material_output: " + material_output);
+            getLogger().info("json_input: " + json_input);
+            getLogger().info("json_output: " + json_output);
+            getLogger().info("amount_input: " + amount_input);
+            getLogger().info("amount_output: " + amount_output);
+            getLogger().info("biomes: " + biomes);
+            getLogger().info("banned_worlds: " + bannedWorlds);
+            getLogger().info("day_night: " + day_night);
+            getLogger().info("weather: " + weather);
+            // Create a new VillagerTrade object with the parsed values
             return new VillagerTrade(material_input, material_output, json_input, json_output, amount_input, amount_output, biomes, bannedWorlds, day_night, weather);
 
         } catch (IOException e) {
