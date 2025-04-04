@@ -28,6 +28,7 @@ import static com.whyarewesoclever.betterVillagers.BetterVillagers.keys;
 import static org.bukkit.Bukkit.getLogger;
 import static org.bukkit.Bukkit.getServer;
 
+
 public class ReloadCommand extends BukkitCommand implements Listener {
     Player player_1;
     Inventory inventory_test = Bukkit.createInventory(player_1, 9 * 6, ChatColor.DARK_AQUA + "ᴄʀᴇᴀᴛᴇ ᴄᴜꜱᴛᴏᴍ ᴛʀᴀᴅᴇꜱ");
@@ -121,6 +122,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                 return Collections.singletonList("set");
             }
             if (args.length == 2 && args[0].equals("set")) {
+               // return Collections.singletonList("name.yml");
                 return keys; // here we should return the list of files in the Drops folder
             }
             if (args.length == 3 && args[2].startsWith("w")) {
@@ -152,7 +154,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
 
         public void createCommand(Player player){
 
-
+            player.playSound(player.getLocation(), org.bukkit.Sound.UI_LOOM_TAKE_RESULT, 10, 1);
             // create the command
              Inventory inventory = Bukkit.createInventory(player, 9 * 6, ChatColor.DARK_AQUA + "ᴄʀᴇᴀᴛᴇ ᴄᴜꜱᴛᴏᴍ ᴛʀᴀᴅᴇꜱ");
              ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
@@ -238,14 +240,15 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                     // logic to parse the object and save it to the config file ( json for each item )
                     String name_id = item1.getType().name() + "_" + item2.getType().name(); // name of the file
                     name_id = generateUniqueId(name_id);
-
+                    int amount1 = item1.getAmount();
+                    int amount2 = item2.getAmount();
                   try {
                       java.nio.file.Files.createFile(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + name_id + ".yml").toPath());
                   } catch (IOException e) {
                       e.printStackTrace();
                   }
 
-                    WriteToFile(name_id, item1.getType().name(), item2.getType().name(), json1, json2);
+                    WriteToFile(name_id, item1.getType().name(), item2.getType().name(), json1, json2, amount1, amount2);
               }
 
 
@@ -271,12 +274,14 @@ public class ReloadCommand extends BukkitCommand implements Listener {
         }
     }
 
-    private void WriteToFile(String fileName,String mat1, String mat2, String json1, String json2){
+    private void WriteToFile(String fileName,String mat1, String mat2, String json1, String json2, int amount1, int amount2) {
         // write the json to the file
         try (java.io.FileWriter writer = new java.io.FileWriter(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml"))) {
             writer.write("material_input: " + mat1 + "\n");
+            writer.write("amount_input: " + amount1 + "\n");
             writer.write("json_input: " + json1 + "\n");
             writer.write("material_output: " + mat2 + "\n");
+            writer.write("amount_output: " + amount2 + "\n");
             writer.write("json_output: " + json2 + "\n");
             writer.write("biomes: []\n"); // default value is empty ( that means all biomes )
             writer.write("bannedWorlds: []\n"); // default value is empty ( that means no worlds are banned )
@@ -297,10 +302,15 @@ public class ReloadCommand extends BukkitCommand implements Listener {
 
             for (int i = 0; i < lines.size(); i++) {
                 if (lines.get(i).startsWith("weather: ")) {
-                    lines.set(i, "weather: " + weather + "\n");
+                    lines.set(i, "weather: " + weather);
+                    //getLogger().info(lines.get(i));
                 }
+                getLogger().info(lines.get(i));
             }
+            java.nio.file.Files.write(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml").toPath(), lines);
 
+                // this is decent, but it does delete the file and create a new one with the updated content ( not ideal )
+                // since we are using the same file, we should just update the content of the file cause we lose the 'date created' and 'last modified' attributes
 
 
         } catch (IOException e) {
@@ -316,9 +326,12 @@ public class ReloadCommand extends BukkitCommand implements Listener {
 
             for (int i = 0; i < lines.size(); i++) {
                 if (lines.get(i).startsWith("day_night: ")) {
-                    lines.set(i, "day_night: " + day_night + "\n");
+                    lines.set(i, "day_night: " + day_night );
+                    //getLogger().info(lines.get(i));
                 }
+                getLogger().info(lines.get(i));
             }
+            java.nio.file.Files.write(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml").toPath(), lines);
 
 
 

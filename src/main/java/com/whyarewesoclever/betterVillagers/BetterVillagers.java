@@ -6,13 +6,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public final class BetterVillagers extends JavaPlugin {
 
-    public static List<String> keys;
+    public static List<String> keys = new ArrayList<>();
 
     public final static Map<String, VillagerTrade> villagerTrades = new HashMap<>();
     public static BetterVillagers getInstance() {
@@ -53,10 +54,6 @@ public final class BetterVillagers extends JavaPlugin {
         }
 
         initialiseKeys();
-
-
-        //getServer().getPluginManager().registerEvents(new ReloadCommand("bettervillagers").onInventoryClick(), this);
-
     }
 
     @Override
@@ -66,18 +63,18 @@ public final class BetterVillagers extends JavaPlugin {
     }
 
     private void initialiseKeys(){
+
         File folder = new File(getDataFolder(), "drops");
-        File[] files = folder.listFiles((dir, name) -> name.endsWith(".yml"));
-        if (files != null) {
-            for (File file : files) {
-                String key = file.getName().replace(".yml", "");
-                getLogger().info("Key: " + key);
-                keys.add(key);
+        File[] listOfFiles = folder.listFiles();
+        if (listOfFiles != null) {
+            for (File file : listOfFiles) {
+                if (file.isFile()) {
+                    String name = file.getName();
+                    String name_id = name.substring(0, name.length() - 4);
+                    getLogger().info("File name: " + name);
+                    keys.add(name_id);
+                }
             }
         }
     }
 }
-
-
-
-
