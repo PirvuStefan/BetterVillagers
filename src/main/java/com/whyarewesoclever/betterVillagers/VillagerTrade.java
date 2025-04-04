@@ -4,6 +4,7 @@ import java.util.List;
 
 public class VillagerTrade {
     String material_input, material_output, json_input, json_output;
+    int amount_input, amount_output;
     public List< String > biomes;
     public List < String > bannedWorlds;
     String day_night = "both"; // default value
@@ -16,6 +17,10 @@ public class VillagerTrade {
         this.material_output = material2;
         this.json_input = json1;
         this.json_output = json2;
+    }
+    public VillagerTrade(int number1, int number2){
+        this.amount_input = number1;
+        this.amount_output = number2;
     }
     public VillagerTrade(List<String> biomes) {
         this.biomes = biomes;

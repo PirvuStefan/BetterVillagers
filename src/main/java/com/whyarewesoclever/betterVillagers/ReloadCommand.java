@@ -240,14 +240,15 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                     // logic to parse the object and save it to the config file ( json for each item )
                     String name_id = item1.getType().name() + "_" + item2.getType().name(); // name of the file
                     name_id = generateUniqueId(name_id);
-
+                    int amount1 = item1.getAmount();
+                    int amount2 = item2.getAmount();
                   try {
                       java.nio.file.Files.createFile(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + name_id + ".yml").toPath());
                   } catch (IOException e) {
                       e.printStackTrace();
                   }
 
-                    WriteToFile(name_id, item1.getType().name(), item2.getType().name(), json1, json2);
+                    WriteToFile(name_id, item1.getType().name(), item2.getType().name(), json1, json2, amount1, amount2);
               }
 
 
@@ -273,12 +274,14 @@ public class ReloadCommand extends BukkitCommand implements Listener {
         }
     }
 
-    private void WriteToFile(String fileName,String mat1, String mat2, String json1, String json2){
+    private void WriteToFile(String fileName,String mat1, String mat2, String json1, String json2, int amount1, int amount2) {
         // write the json to the file
         try (java.io.FileWriter writer = new java.io.FileWriter(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml"))) {
             writer.write("material_input: " + mat1 + "\n");
+            writer.write("amount_input: " + amount1 + "\n");
             writer.write("json_input: " + json1 + "\n");
             writer.write("material_output: " + mat2 + "\n");
+            writer.write("amount_output: " + amount2 + "\n");
             writer.write("json_output: " + json2 + "\n");
             writer.write("biomes: []\n"); // default value is empty ( that means all biomes )
             writer.write("bannedWorlds: []\n"); // default value is empty ( that means no worlds are banned )
@@ -324,8 +327,11 @@ public class ReloadCommand extends BukkitCommand implements Listener {
             for (int i = 0; i < lines.size(); i++) {
                 if (lines.get(i).startsWith("day_night: ")) {
                     lines.set(i, "day_night: " + day_night + "\n");
+                    //getLogger().info(lines.get(i));
                 }
+                getLogger().info(lines.get(i));
             }
+            java.nio.file.Files.write(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml").toPath(), lines);
 
 
 
