@@ -101,6 +101,11 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                     WriteDay_NightToFile(strings[1], strings[3]);
                     sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Day/Night set to " + strings[3] + " for the trade " + strings[1]);
                 }
+                if( strings[2].equals("biomes")){
+                    // write to the file
+                    WriteBiomes(strings[1], strings[3]);
+                    sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Biomes set to " + strings[3] + " for the trade " + strings[1]);
+                }
             }
             if( strings[0].equals("create")) createCommand((Player) sender); // we do have the create command here
 
@@ -335,6 +340,30 @@ public class ReloadCommand extends BukkitCommand implements Listener {
             getLogger().warning("Could not write to file " + fileName + ".yml");
             throw new RuntimeException(e);
         }
+    }
+
+    private void WriteBiomes(String fileName, String biomes){
+
+        try (java.io.FileWriter writer = new java.io.FileWriter(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml"), true)) {
+
+            List<String> lines = java.nio.file.Files.readAllLines(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml").toPath());
+
+            for (int i = 0; i < lines.size(); i++) {
+                if (lines.get(i).startsWith("biomes: ")) {
+                    lines.set(i, "biomes: " + biomes );
+                    //getLogger().info(lines.get(i));
+                }
+                getLogger().info(lines.get(i));
+            }
+            java.nio.file.Files.write(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml").toPath(), lines);
+
+
+
+        } catch (IOException e) {
+            getLogger().warning("Could not write to file " + fileName + ".yml");
+            throw new RuntimeException(e);
+        }
+
     }
 
 
