@@ -141,20 +141,22 @@ public final class BetterVillagers extends JavaPlugin {
                 }
             }
 
-            getLogger().info("Parsed file: " + file.getName());
-            getLogger().info("material_input: " + material_input);
-            getLogger().info("material_output: " + material_output);
-            getLogger().info("json_input: " + json_input);
-            getLogger().info("json_output: " + json_output);
-            getLogger().info("amount_input: " + amount_input);
-            getLogger().info("amount_output: " + amount_output);
-            getLogger().info("biomes: " + biomes);
-            getLogger().info("biomes is empty: " + biomes.size());
-            getLogger().info("biomes first element: " + (biomes.isEmpty() ? "none" : biomes.get(0)));
-            getLogger().info("banned_worlds: " + bannedWorlds);
-            getLogger().info("banned_worlds is empty: " + bannedWorlds.size());
-            getLogger().info("day_night: " + day_night);
-            getLogger().info("weather: " + weather);
+//            getLogger().info("Parsed file: " + file.getName());
+//            getLogger().info("material_input: " + material_input);
+//            getLogger().info("material_output: " + material_output);
+//            getLogger().info("json_input: " + json_input);
+//            getLogger().info("json_output: " + json_output);
+//            getLogger().info("amount_input: " + amount_input);
+//            getLogger().info("amount_output: " + amount_output);
+//            getLogger().info("biomes: " + biomes);
+//            getLogger().info("biomes is empty: " + biomes.size());
+//            getLogger().info("biomes first element: " + (biomes.isEmpty() ? "none" : biomes.get(0)));
+//            getLogger().info("banned_worlds: " + bannedWorlds);
+//            getLogger().info("banned_worlds is empty: " + bannedWorlds.size());
+//            getLogger().info("day_night: " + day_night);
+//            getLogger().info("weather: " + weather);
+
+
             // Create a new VillagerTrade object with the parsed values
             return new VillagerTrade(material_input, material_output, json_input, json_output, amount_input, amount_output, biomes, bannedWorlds, day_night, weather);
 
