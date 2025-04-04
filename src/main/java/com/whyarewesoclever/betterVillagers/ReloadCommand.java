@@ -112,22 +112,18 @@ public class ReloadCommand extends BukkitCommand implements Listener {
         @Override
         public @Nullable List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
 
-            if (args.length == 1 && args[0].startsWith("r")) {
+            if (args.length == 1 && args[0].startsWith("r"))
                 return Collections.singletonList("reload");
-            }
-            if (args.length == 1 && args[0].startsWith("c")) {
+            if (args.length == 1 && args[0].startsWith("c"))
                 return Collections.singletonList("create");
-            }
-            if (args.length == 1 && args[0].startsWith("s")) {
+            if (args.length == 1 && args[0].startsWith("s"))
                 return Collections.singletonList("set");
-            }
-            if (args.length == 2 && args[0].equals("set")) {
-               // return Collections.singletonList("name.yml");
+            if (args.length == 2 && args[0].equals("set"))
                 return keys; // here we should return the list of files in the Drops folder
-            }
-            if (args.length == 3 && args[2].startsWith("w")) {
+            if (args.length == 3 && args[2].startsWith("w"))
                 return Collections.singletonList("weather");
-            }
+            if( args.length == 3 && args[2].startsWith("b"))
+                return Collections.singletonList("biomes");
             if (args.length >= 3 && args[2].equals("weather")) {
                 if (args.length == 4 && args[3].startsWith("a"))
                     return Collections.singletonList("any");
@@ -138,9 +134,9 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                 if (args.length == 4 && args[3].startsWith("c"))
                     return Collections.singletonList("clear");
             }
-            if (args.length == 3 && args[2].startsWith("d")) {
+            if (args.length == 3 && args[2].startsWith("d"))
                 return Collections.singletonList("day_night");
-            }
+
             if (args.length >= 3 && args[2].equals("day_night")) {
                 if (args.length == 4 && args[3].startsWith("b"))
                     return Collections.singletonList("both");
