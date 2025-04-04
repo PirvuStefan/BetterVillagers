@@ -176,7 +176,7 @@ public final class BetterVillagers extends JavaPlugin {
     private boolean checkBannedWorlds(Villager villager, List< String > bannedWorlds){
         if (bannedWorlds.isEmpty()) return true;
         if( bannedWorlds.contains("ALL") ) return false;
-        if ( bannedWorlds.contains("all") ) return true;
+        if ( bannedWorlds.contains("all") ) return false;
         return !bannedWorlds.contains(villager.getLocation().getWorld().getName());
     }
 }
