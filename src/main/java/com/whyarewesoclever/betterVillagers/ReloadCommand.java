@@ -302,7 +302,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
 
             for (int i = 0; i < lines.size(); i++) {
                 if (lines.get(i).startsWith("weather: ")) {
-                    lines.set(i, "weather: " + weather + "\n");
+                    lines.set(i, "weather: " + weather);
                     //getLogger().info(lines.get(i));
                 }
                 getLogger().info(lines.get(i));
@@ -326,7 +326,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
 
             for (int i = 0; i < lines.size(); i++) {
                 if (lines.get(i).startsWith("day_night: ")) {
-                    lines.set(i, "day_night: " + day_night + "\n");
+                    lines.set(i, "day_night: " + day_night );
                     //getLogger().info(lines.get(i));
                 }
                 getLogger().info(lines.get(i));
