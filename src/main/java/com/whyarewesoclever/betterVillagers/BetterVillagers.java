@@ -2,6 +2,7 @@ package com.whyarewesoclever.betterVillagers;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandMap;
+import org.bukkit.entity.Villager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.BufferedReader;
@@ -164,5 +165,18 @@ public final class BetterVillagers extends JavaPlugin {
             getLogger().warning("Could not read file " + file.getName());
             throw new RuntimeException(e);
         }
+    }
+
+    private boolean checkBiome(Villager villager, List< String > biomes){
+        if (biomes.isEmpty()) return true;
+        if( biomes.contains("ALL") ) return true;
+        if ( biomes.contains("all") ) return true;
+        return biomes.contains(villager.getLocation().getBlock().getBiome().name());
+    }
+    private boolean checkBannedWorlds(Villager villager, List< String > bannedWorlds){
+        if (bannedWorlds.isEmpty()) return true;
+        if( bannedWorlds.contains("ALL") ) return false;
+        if ( bannedWorlds.contains("all") ) return true;
+        return !bannedWorlds.contains(villager.getLocation().getWorld().getName());
     }
 }
