@@ -74,6 +74,8 @@ public class ReloadCommand extends BukkitCommand implements Listener {
             if( strings[0].equals("reload") ){
                 sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Reloading config file .");
                 BetterVillagers.getInstance().reloadConfig();
+                BetterVillagers.getInstance().initialiseKeys();
+                BetterVillagers.getInstance().initialiseMap();
                 return true;
             }
             if( !strings[0].equals("create") && !strings[0].equals("set") ){

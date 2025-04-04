@@ -68,7 +68,7 @@ public final class BetterVillagers extends JavaPlugin {
         getLogger().info("BetterVillagers has been disabled!");
     }
 
-    private void initialiseKeys(){
+    public void initialiseKeys(){
 
         File folder = new File(getDataFolder(), "drops");
         File[] listOfFiles = folder.listFiles();
