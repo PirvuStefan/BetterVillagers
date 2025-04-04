@@ -350,7 +350,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
 
             for (int i = 0; i < lines.size(); i++) {
                 if (lines.get(i).startsWith("biomes: ")) {
-                    lines.set(i, "biomes: " + biomes );
+                    lines.set(i, "biomes: [" + biomes + "]");
                     //getLogger().info(lines.get(i));
                 }
                 getLogger().info(lines.get(i));
