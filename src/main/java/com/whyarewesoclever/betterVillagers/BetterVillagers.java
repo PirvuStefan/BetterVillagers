@@ -1,8 +1,13 @@
 package com.whyarewesoclever.betterVillagers;
 
+import de.tr7zw.nbtapi.NBT;
+import de.tr7zw.nbtapi.NBTItem;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.command.CommandMap;
 import org.bukkit.entity.Villager;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.MerchantRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.BufferedReader;
@@ -58,6 +63,7 @@ public final class BetterVillagers extends JavaPlugin {
 
         initialiseKeys();
         initialiseMap();
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, this::updateVillagerTrades, 0L, 100L);
     }
 
     @Override
@@ -165,6 +171,41 @@ public final class BetterVillagers extends JavaPlugin {
             getLogger().warning("Could not read file " + file.getName());
             throw new RuntimeException(e);
         }
+    }
+
+    private void updateVillagerTrades(){
+
+        for (Villager villagerNow : Bukkit.getWorld("world").getEntitiesByClass(Villager.class)) {
+
+            for (Map.Entry<String, VillagerTrade> entry : villagerTrades.entrySet()) {
+                VillagerTrade villagerTrade = entry.getValue();
+               // Bukkit.getLogger().info("Biomes: " + villagerTrade.biomes);
+                    addCustomTrade(villagerNow, villagerTrade);
+
+            }
+
+        }
+    }
+
+    private void addCustomTrade(Villager villager, VillagerTrade villagerTrade) {
+        List<MerchantRecipe> trades = new ArrayList<>(villager.getRecipes());
+
+        // Example: Add a custom trade that only appears at night
+        ItemStack result = new ItemStack(Material.valueOf(villagerTrade.getMaterialOutput()), villagerTrade.getAmountOutput());
+        ItemStack ingredient1 = new ItemStack(Material.valueOf(villagerTrade.getMaterialInput()), villagerTrade.getAmountInput());
+        NBTItem nbtItem1 = new NBTItem(result);
+        NBTItem nbtItem2 = new NBTItem(ingredient1);
+        nbtItem1.mergeCompound(NBT.parseNBT(villagerTrade.getJsonInput()));
+        nbtItem2.mergeCompound(NBT.parseNBT(villagerTrade.getJsonOutput()));
+        result = nbtItem1.getItem();
+        ingredient1 = nbtItem2.getItem();
+
+        MerchantRecipe recipe = new MerchantRecipe(result, 0, 10, true);
+        recipe.addIngredient(ingredient1);
+
+        trades.add(recipe);
+        villager.setRecipes(trades);
+        getLogger().info("Added custom trade to villager " + villager.getEntityId());
     }
 
     private boolean checkBiome(Villager villager, List< String > biomes){

@@ -69,5 +69,17 @@ public class VillagerTrade {
     public List<String> getBannedWorlds() {
         return bannedWorlds;
     }
+    public String getDayNight() {
+        return day_night;
+    }
+    public String getWeather() {
+        return weather;
+    }
+    public int getAmountInput() {
+        return amount_input;
+    }
+    public int getAmountOutput() {
+        return amount_output;
+    }
 
 } // write once, debug everywhere
