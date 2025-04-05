@@ -195,8 +195,8 @@ public final class BetterVillagers extends JavaPlugin {
         ItemStack ingredient1 = new ItemStack(Material.valueOf(villagerTrade.getMaterialInput()), villagerTrade.getAmountInput());
         NBTItem nbtItem1 = new NBTItem(result);
         NBTItem nbtItem2 = new NBTItem(ingredient1);
-        nbtItem1.mergeCompound(NBT.parseNBT(villagerTrade.getJsonInput()));
-        nbtItem2.mergeCompound(NBT.parseNBT(villagerTrade.getJsonOutput()));
+        nbtItem1.mergeCompound(NBT.parseNBT(villagerTrade.getJsonOutput()));
+        nbtItem2.mergeCompound(NBT.parseNBT(villagerTrade.getJsonInput()));
         result = nbtItem1.getItem();
         ingredient1 = nbtItem2.getItem();
 
