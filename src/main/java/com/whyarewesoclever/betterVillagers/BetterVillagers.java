@@ -178,6 +178,7 @@ public final class BetterVillagers extends JavaPlugin {
         for (Villager villagerNow : Bukkit.getWorld("world").getEntitiesByClass(Villager.class)) {
 
             for (Map.Entry<String, VillagerTrade> entry : villagerTrades.entrySet()) {
+                if( !checkTrade(villagerNow, entry.getValue()) ) continue;
                 VillagerTrade villagerTrade = entry.getValue();
                // Bukkit.getLogger().info("Biomes: " + villagerTrade.biomes);
                     addCustomTrade(villagerNow, villagerTrade);
@@ -206,6 +207,16 @@ public final class BetterVillagers extends JavaPlugin {
         trades.add(recipe);
         villager.setRecipes(trades);
         getLogger().info("Added custom trade to villager " + villager.getEntityId());
+    }
+
+    private boolean checkTrade(Villager villager, VillagerTrade villagerTrade){
+        // check if the villager already has the trade, to avoid duplicates
+        for (MerchantRecipe recipe : villager.getRecipes()) {
+            if (recipe.getResult().isSimilar(new ItemStack(Material.valueOf(villagerTrade.getMaterialOutput()), villagerTrade.getAmountOutput()))) {
+                return false;
+            }// check if the villager has the trade, return false if it does
+        }
+        return true;
     }
 
     private boolean checkBiome(Villager villager, List< String > biomes){
