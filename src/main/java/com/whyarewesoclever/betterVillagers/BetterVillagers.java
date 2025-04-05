@@ -174,7 +174,7 @@ public final class BetterVillagers extends JavaPlugin {
     }
 
     private void updateVillagerTrades(){
-
+        if( !getConfig().getBoolean("Enable") ) return;
         for (Villager villagerNow : Bukkit.getWorld("world").getEntitiesByClass(Villager.class)) {
 
             for (Map.Entry<String, VillagerTrade> entry : villagerTrades.entrySet()) {
