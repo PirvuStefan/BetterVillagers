@@ -2,3 +2,4 @@
 Enable: true # Disable the plugin functionality, the plugin will no longer add the "trades" to the villagers
 # You can only disable / enable the plugin functionality in the config.yml file, so take notice of that
 # Note: The trades will still be bounded to the villagers in the world, but from now on it will not add any new trades to the villagers
+CheckForUpdates: 5 # Check for villager updates every x seconds ( integer ) , default is 5 seconds, set to how many seconds you want ( anything below 3 will be considered as 3 )

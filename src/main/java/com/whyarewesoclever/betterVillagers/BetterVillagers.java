@@ -17,8 +17,6 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.*;
 
-import static org.bukkit.Bukkit.getLogger;
-
 public final class BetterVillagers extends JavaPlugin {
 
     public static List<String> keys = new ArrayList<>();
@@ -63,7 +61,10 @@ public final class BetterVillagers extends JavaPlugin {
 
         initialiseKeys();
         initialiseMap();
-        getServer().getScheduler().scheduleSyncRepeatingTask(this, this::updateVillagerTrades, 0L, 100L);
+        int seconds = getConfig().getInt("CheckForUpdates");
+        if( seconds < 3 ) seconds = 3;
+        seconds = seconds * 20;
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, this::updateVillagerTrades, 0L, seconds);
     }
 
     @Override
@@ -178,7 +179,7 @@ public final class BetterVillagers extends JavaPlugin {
         for (Villager villagerNow : Bukkit.getWorld("world").getEntitiesByClass(Villager.class)) {
 
             for (Map.Entry<String, VillagerTrade> entry : villagerTrades.entrySet()) {
-                if( checkTrade(villagerNow, entry.getValue()) ) continue;
+                if( !checkTrade(villagerNow, entry.getValue()) ) continue;
                 VillagerTrade villagerTrade = entry.getValue();
                // Bukkit.getLogger().info("Biomes: " + villagerTrade.biomes);
                     addCustomTrade(villagerNow, villagerTrade);
@@ -211,6 +212,7 @@ public final class BetterVillagers extends JavaPlugin {
 
     private boolean checkTrade(Villager villager, VillagerTrade villagerTrade){
         // check if the villager already has the trade, to avoid duplicates
+        boolean identical = false ;
         for (MerchantRecipe recipe : villager.getRecipes()) {
             // we need to check if the villager has the trade ( identical )
             // check if the villager has the trade, return false if it does
@@ -218,8 +220,21 @@ public final class BetterVillagers extends JavaPlugin {
                     recipe.getIngredients().get(0).getType() == Material.valueOf(villagerTrade.getMaterialInput()) &&
                     recipe.getIngredients().get(0).getAmount() == villagerTrade.getAmountInput() &&
                     recipe.getResult().getAmount() == villagerTrade.getAmountOutput() ) {
-                return false;
+                identical = true;
+                return false; // return false if the villager has the trade
             }
+//            if( identical ){
+//                String json_input = villagerTrade.getJsonInput();
+//                String json_output = villagerTrade.getJsonOutput();
+//                NBTItem nbtItem = new NBTItem(recipe.getResult());
+//                NBTItem nbtItem2 = new NBTItem(recipe.getIngredients().get(0));
+//                String json1 = nbtItem.toString();
+//                String json2 = nbtItem2.toString();
+//                if( json1.equals(json_input) && json2.equals(json_output))
+//                    return false; // return false if the villager has the trade
+//
+//            }
+
 
         }
         return true; // return true if the villager does not have the trade
