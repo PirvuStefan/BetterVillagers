@@ -76,6 +76,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                 BetterVillagers.getInstance().reloadConfig();
                 BetterVillagers.getInstance().initialiseKeys();
                 BetterVillagers.getInstance().initialiseMap();
+                BetterVillagers.worldsList.addAll(BetterVillagers.getInstance().getConfig().getStringList("Worlds"));
                 return true;
             }
             if( !strings[0].equals("create") && !strings[0].equals("set") ){

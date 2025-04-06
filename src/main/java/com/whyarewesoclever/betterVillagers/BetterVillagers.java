@@ -20,11 +20,12 @@ import java.util.*;
 public final class BetterVillagers extends JavaPlugin {
 
     public static List<String> keys = new ArrayList<>();
-
+    public static List<String> worldsList = new ArrayList<>();
     public final static Map<String, VillagerTrade> villagerTrades = new HashMap<>();
     public static BetterVillagers getInstance() {
         return getPlugin(BetterVillagers.class);
     }
+
     @Override
     public void onEnable() {
         // Plugin startup logic
@@ -61,6 +62,7 @@ public final class BetterVillagers extends JavaPlugin {
 
         initialiseKeys();
         initialiseMap();
+        worldsList.addAll(getConfig().getStringList("Worlds"));
         int seconds = getConfig().getInt("CheckForUpdates");
         if( seconds < 3 ) seconds = 3;
         seconds = seconds * 20;
