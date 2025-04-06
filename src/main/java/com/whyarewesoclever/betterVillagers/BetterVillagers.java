@@ -190,8 +190,7 @@ public final class BetterVillagers extends JavaPlugin {
 
                 if( biome && bannedWorlds && day_night && weather )
                     addCustomTrade(villagerNow, villagerTrade);
-                if( !biome || !bannedWorlds || !day_night || !weather )
-                    deleteCustomTrade(villagerNow, villagerTrade);
+                else deleteCustomTrade(villagerNow, villagerTrade);
 
 
             }
