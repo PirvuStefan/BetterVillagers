@@ -182,6 +182,7 @@ public final class BetterVillagers extends JavaPlugin {
                 if( !checkTrade(villagerNow, entry.getValue()) ) continue;
                 VillagerTrade villagerTrade = entry.getValue();
                // Bukkit.getLogger().info("Biomes: " + villagerTrade.biomes);
+                // add trade logic if it meets the conditions, and detele the trade if they do not meet the cireteria anymore
                     addCustomTrade(villagerNow, villagerTrade);
 
             }
@@ -208,6 +209,43 @@ public final class BetterVillagers extends JavaPlugin {
         trades.add(recipe);
         villager.setRecipes(trades);
         getLogger().info("Added custom trade to villager " + villager.getEntityId());
+    }
+
+    private void deleteCustomTrade(Villager villager, VillagerTrade villagerTrade){
+        List<MerchantRecipe> trades = new ArrayList<>(villager.getRecipes());
+        char found = 'a';
+        boolean identical = false;
+        MerchantRecipe recipe_delete = null;
+        for (MerchantRecipe recipe : trades) {
+            if (recipe.getResult().getType() == Material.valueOf(villagerTrade.getMaterialOutput()) &&
+                    recipe.getIngredients().get(0).getType() == Material.valueOf(villagerTrade.getMaterialInput()) &&
+                    recipe.getIngredients().get(0).getAmount() == villagerTrade.getAmountInput() &&
+                    recipe.getResult().getAmount() == villagerTrade.getAmountOutput()) {
+                identical = true;
+            }
+            if( identical && villagerTrade.getJsonInput().equals("{}") && villagerTrade.getJsonOutput().equals("{}") ) {
+
+                trades.remove(recipe);
+                break;
+            }
+            if( identical ){
+                String json_input = villagerTrade.getJsonInput();
+                String json_output = villagerTrade.getJsonOutput();
+                NBTItem nbtItem = new NBTItem(recipe.getResult()); // result
+                NBTItem nbtItem2 = new NBTItem(recipe.getIngredients().get(0)); // ingredient
+                String json2 = nbtItem.toString();
+                String json1 = nbtItem2.toString();
+                if( !json_input.equals("{}") && json1.equals(json_input) )
+                    found ++;
+                if( !json_output.equals("{}") && json2.equals(json_output) )
+                    found ++;
+                if( found == 'c' ){
+                    trades.remove(recipe);
+                    break;
+                }
+            }
+        }
+        villager.setRecipes(trades);
     }
 
     private boolean checkTrade(Villager villager, VillagerTrade villagerTrade){
