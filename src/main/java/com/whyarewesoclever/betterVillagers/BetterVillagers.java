@@ -192,7 +192,7 @@ public final class BetterVillagers extends JavaPlugin {
                     addCustomTrade(villagerNow, villagerTrade);
                 } else if( !biome || !bannedWorlds || !day_night || !weather ) {
                     deleteCustomTrade(villagerNow, villagerTrade);
-                }
+                } // mancatias
 
 
 
