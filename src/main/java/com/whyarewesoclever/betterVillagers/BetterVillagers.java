@@ -188,9 +188,13 @@ public final class BetterVillagers extends JavaPlugin {
                 boolean day_night = checkDayNight(villagerNow, villagerTrade.getDayNight());
                 boolean weather = checkWeather(villagerNow, villagerTrade.getWeather());
 
-                if( biome && bannedWorlds && day_night && weather )
-                    addCustomTrade(villagerNow, villagerTrade);
-                else deleteCustomTrade(villagerNow, villagerTrade);
+                if( !biome || !bannedWorlds || !day_night || !weather ) {
+                    deleteCustomTrade(villagerNow, villagerTrade);
+                    return;
+                }
+                if( !checkTrade(villagerNow, entry.getValue()) ) continue;
+                addCustomTrade(villagerNow, villagerTrade);
+
 
 
             }
