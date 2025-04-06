@@ -182,8 +182,17 @@ public final class BetterVillagers extends JavaPlugin {
                 if( !checkTrade(villagerNow, entry.getValue()) ) continue;
                 VillagerTrade villagerTrade = entry.getValue();
                // Bukkit.getLogger().info("Biomes: " + villagerTrade.biomes);
-                // add trade logic if it meets the conditions, and detele the trade if they do not meet the cireteria anymore
+                // add trade logic if it meets the conditions, and detele the trade if they do not meet the criteria anymore
+                boolean biome = checkBiome(villagerNow, villagerTrade.getBiomes());
+                boolean bannedWorlds = checkBannedWorlds(villagerNow, villagerTrade.getBannedWorlds());
+                boolean day_night = checkDayNight(villagerNow, villagerTrade.getDayNight());
+                boolean weather = checkWeather(villagerNow, villagerTrade.getWeather());
+
+                if( biome && bannedWorlds && day_night && weather )
                     addCustomTrade(villagerNow, villagerTrade);
+                if( !biome || !bannedWorlds || !day_night || !weather )
+                    deleteCustomTrade(villagerNow, villagerTrade);
+
 
             }
 
@@ -296,11 +305,26 @@ public final class BetterVillagers extends JavaPlugin {
         if( biomes.contains("ALL") ) return true;
         if ( biomes.contains("all") ) return true;
         return biomes.contains(villager.getLocation().getBlock().getBiome().name());
-    }
+    } // return true if the villager is in that specific biome
     private boolean checkBannedWorlds(Villager villager, List< String > bannedWorlds){
         if (bannedWorlds.isEmpty()) return true;
         if( bannedWorlds.contains("ALL") ) return false;
         if ( bannedWorlds.contains("all") ) return false;
+        if( bannedWorlds.contains("none") ) return true;
+        if( bannedWorlds.contains("NONE") ) return true;
         return !bannedWorlds.contains(villager.getLocation().getWorld().getName());
     }
+    private boolean checkDayNight(Villager villager, String day_night){
+        if( day_night.equals("both") ) return true;
+        if( day_night.equals("day") && villager.getWorld().getTime() < 13000 ) return true;
+        if( day_night.equals("night") && villager.getWorld().getTime() > 13000 ) return true;
+        return false;
+    } // return true if the villager is in that 'specific time'
+    private boolean checkWeather(Villager villager, String weather){
+        if( weather.equals("any") ) return true;
+        if( weather.equals("clear") && villager.getWorld().isClearWeather() ) return true;
+        if( weather.equals("thunder") && villager.getWorld().hasStorm() ) return true;
+        if( weather.equals("rain") && !villager.getWorld().hasStorm() && !villager.getWorld().isClearWeather() ) return true;
+        return false;
+    } // return true if the villager is in that 'specific weather'
 }

@@ -287,7 +287,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
             writer.write("amount_output: " + amount2 + "\n");
             writer.write("json_output: " + json2 + "\n");
             writer.write("biomes: [all]\n"); // default value is empty ( that means all biomes )
-            writer.write("bannedWorlds: []\n"); // default value is empty ( that means no worlds are banned )
+            writer.write("bannedWorlds: [none]\n"); // default value is empty ( that means no worlds are banned )
             writer.write("day_night: both\n"); // default value is both ( that means it can be traded at any time )
             writer.write("weather: any\n"); // default value is any ( that means it can be traded at any weather )
 
