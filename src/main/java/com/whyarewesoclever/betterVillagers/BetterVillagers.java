@@ -62,7 +62,7 @@ public final class BetterVillagers extends JavaPlugin {
 
         initialiseKeys();
         initialiseMap();
-        worldsList.addAll(getConfig().getStringList("Worlds"));
+        worldsList.addAll(getConfig().getStringList("Worlds")); // get the list of worlds from the config
         int seconds = getConfig().getInt("CheckForUpdates");
         if( seconds < 3 ) seconds = 3;
         seconds = seconds * 20;
