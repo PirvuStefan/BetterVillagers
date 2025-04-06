@@ -5,3 +5,8 @@ Enable: true # Disable the plugin functionality, the plugin will no longer add t
 CheckForUpdates: 5 # Check for villager updates every x seconds ( integer ) , default is 5 seconds, set to how many seconds you want ( anything below 3 will be considered as 3 )
 # The plugin does use low resources, so it will not affect the server performance at all
 # At least do not spawn thousands of villagers in the same world, this may cause some lag ( since the plugin tests every villager in the world every x seconds )
+Worlds: # Register the worlds where the plugin will be active , add the world name to the list
+  - world
+  - world_nether
+  - world_the_end
+# The plugin will not be active in the worlds that are not registered in the list .
