@@ -179,21 +179,20 @@ public final class BetterVillagers extends JavaPlugin {
         for (Villager villagerNow : Bukkit.getWorld("world").getEntitiesByClass(Villager.class)) {
 
             for (Map.Entry<String, VillagerTrade> entry : villagerTrades.entrySet()) {
-                if( !checkTrade(villagerNow, entry.getValue()) ) continue;
+
                 VillagerTrade villagerTrade = entry.getValue();
-               // Bukkit.getLogger().info("Biomes: " + villagerTrade.biomes);
+
                 // add trade logic if it meets the conditions, and detele the trade if they do not meet the criteria anymore
                 boolean biome = checkBiome(villagerNow, villagerTrade.getBiomes());
                 boolean bannedWorlds = checkBannedWorlds(villagerNow, villagerTrade.getBannedWorlds());
                 boolean day_night = checkDayNight(villagerNow, villagerTrade.getDayNight());
                 boolean weather = checkWeather(villagerNow, villagerTrade.getWeather());
 
-                if( !biome || !bannedWorlds || !day_night || !weather ) {
+                if( biome && bannedWorlds && day_night && weather && checkTrade(villagerNow, villagerTrade) ) {
+                    addCustomTrade(villagerNow, villagerTrade);
+                } else if( !biome || !bannedWorlds || !day_night || !weather ) {
                     deleteCustomTrade(villagerNow, villagerTrade);
-                    return;
                 }
-                if( !checkTrade(villagerNow, entry.getValue()) ) continue;
-                addCustomTrade(villagerNow, villagerTrade);
 
 
 
