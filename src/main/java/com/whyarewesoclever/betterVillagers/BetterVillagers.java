@@ -224,21 +224,35 @@ public final class BetterVillagers extends JavaPlugin {
                 //return false; // return false if the villager has the trade
             }
             if( identical && villagerTrade.getJsonInput().equals("{}") && villagerTrade.getJsonOutput().equals("{}") ) {
+               // getLogger().info("mancatiast");
                 return false; // return false if the villager has the trade
             }
             if( identical ){
                 String json_input = villagerTrade.getJsonInput();
                 String json_output = villagerTrade.getJsonOutput();
-                NBTItem nbtItem = new NBTItem(recipe.getResult());
-                NBTItem nbtItem2 = new NBTItem(recipe.getIngredients().get(0));
-                String json1 = nbtItem.toString();
-                String json2 = nbtItem2.toString();
-                if( !json_input.equals("{}")  && json1.equals(json_input) && json2.equals(json_output) && !json2.equals("{}") )
+                NBTItem nbtItem = new NBTItem(recipe.getResult()); // result
+                NBTItem nbtItem2 = new NBTItem(recipe.getIngredients().get(0)); // ingredient
+                String json2 = nbtItem.toString();
+                String json1 = nbtItem2.toString();
+                getLogger().info("json1: " + json1);
+                getLogger().info("json2: " + json2);
+                getLogger().info("json_input: " + json_input);
+                getLogger().info("json_output: " + json_output);
+                if( !json_input.equals("{}") && json1.equals(json_input) ){
                     return false;
+                }
+                if( !json_output.equals("{}") && json2.equals(json_output) ){
+                    return false;
+                }
+//                if( !json_input.equals("{}")  && json1.equals(json_input) && json2.equals(json_output) && !json2.equals("{}") ) {
+//                    getLogger(). info("\n DA \n");
+//                    return false;
+//                }
             }
 
 
         }
+        getLogger().info("tare");
         return true; // return true if the villager does not have the trade
     }
 
