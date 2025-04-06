@@ -221,6 +221,7 @@ public final class BetterVillagers extends JavaPlugin {
     }
 
     private void deleteCustomTrade(Villager villager, VillagerTrade villagerTrade){
+        getLogger().info("Deleting custom trade from villager " + villager.getEntityId());
         List<MerchantRecipe> trades = new ArrayList<>(villager.getRecipes());
         char found = 'a';
         boolean identical = false;
