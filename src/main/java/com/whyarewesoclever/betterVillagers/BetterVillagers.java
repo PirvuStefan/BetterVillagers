@@ -21,6 +21,8 @@ public final class BetterVillagers extends JavaPlugin {
 
     public static List<String> keys = new ArrayList<>();
 
+    public static List < String > worldsList = new ArrayList<>();
+
     public final static Map<String, VillagerTrade> villagerTrades = new HashMap<>();
     public static BetterVillagers getInstance() {
         return getPlugin(BetterVillagers.class);
@@ -61,6 +63,11 @@ public final class BetterVillagers extends JavaPlugin {
 
         initialiseKeys();
         initialiseMap();
+        initialiseWorldsList();
+        for( String world : worldsList ){
+            getLogger().info("World: " + world);
+        }
+
         int seconds = getConfig().getInt("CheckForUpdates");
         if( seconds < 3 ) seconds = 3;
         seconds = seconds * 20;
@@ -107,6 +114,11 @@ public final class BetterVillagers extends JavaPlugin {
             }
         }
 
+    }
+
+    public void initialiseWorldsList() {
+        worldsList.clear();
+        worldsList.addAll(getConfig().getStringList("Worlds"));
     }
 
     private VillagerTrade parseVillagerTrade(File file) {
