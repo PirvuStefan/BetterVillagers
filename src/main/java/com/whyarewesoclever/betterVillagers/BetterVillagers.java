@@ -221,19 +221,21 @@ public final class BetterVillagers extends JavaPlugin {
                     recipe.getIngredients().get(0).getAmount() == villagerTrade.getAmountInput() &&
                     recipe.getResult().getAmount() == villagerTrade.getAmountOutput() ) {
                 identical = true;
+                //return false; // return false if the villager has the trade
+            }
+            if( identical && villagerTrade.getJsonInput().equals("{}") && villagerTrade.getJsonOutput().equals("{}") ) {
                 return false; // return false if the villager has the trade
             }
-//            if( identical ){
-//                String json_input = villagerTrade.getJsonInput();
-//                String json_output = villagerTrade.getJsonOutput();
-//                NBTItem nbtItem = new NBTItem(recipe.getResult());
-//                NBTItem nbtItem2 = new NBTItem(recipe.getIngredients().get(0));
-//                String json1 = nbtItem.toString();
-//                String json2 = nbtItem2.toString();
-//                if( json1.equals(json_input) && json2.equals(json_output))
-//                    return false; // return false if the villager has the trade
-//
-//            }
+            if( identical ){
+                String json_input = villagerTrade.getJsonInput();
+                String json_output = villagerTrade.getJsonOutput();
+                NBTItem nbtItem = new NBTItem(recipe.getResult());
+                NBTItem nbtItem2 = new NBTItem(recipe.getIngredients().get(0));
+                String json1 = nbtItem.toString();
+                String json2 = nbtItem2.toString();
+                if( !json_input.equals("{}")  && json1.equals(json_input) && json2.equals(json_output) && !json2.equals("{}") )
+                    return false;
+            }
 
 
         }
