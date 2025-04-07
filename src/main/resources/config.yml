@@ -10,3 +10,16 @@ Worlds:
   - world_nether
   - world_the_end
 # Add the worlds you want the plugin to work in
+#
+# COMMANDS
+# /bettervillagers reload - Reload the config.yml file
+# /bettervillagers create - Create a new villager trade configuration ( opens the villager GUI )
+# /bettervillagers set <name> weather thunder - Set the weather to thunder for the trade <name> ( for the weather modifiers you can set the weather to thunder, rain, clear, any )
+# /bettervillagers set <name> day_night day - Set the time to day for the trade <name> ( for the time modifiers you can set the time to day, night, both )
+# /bettervillagers set <name> biomes <biome1,biome2,biome3> - Set the biome for the trade <name> ( set the biomes you want the trade to work in, example: /bettervillagers set <name> biomes RIVER,PLAINS,BIRCH_FOREST       ; check the list of biomes in the wiki : https://hub.spigotmc.org/javadocs/spigot/org/bukkit/block/Biome.html )
+# By default, the trade will work in all biomes, no matter the weather or time
+#
+# PERMISSIONS
+# bettervillagers.commands - Permission to use the plugin commands
+# bettervillagers.create - Permission to create a new villager with the trades
+# bettervillagers.reload - Permission to reload the config.yml file
