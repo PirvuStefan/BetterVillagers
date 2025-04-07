@@ -184,6 +184,8 @@ public final class BetterVillagers extends JavaPlugin {
         for( String world : worldsList) {
             for (Villager villagerNow : Bukkit.getWorld(world).getEntitiesByClass(Villager.class)) {
 
+                if (!isVillagerEmployed(villagerNow)) continue;
+
                 for (Map.Entry<String, VillagerTrade> entry : villagerTrades.entrySet()) {
 
                     VillagerTrade villagerTrade = entry.getValue();
@@ -307,6 +309,10 @@ public final class BetterVillagers extends JavaPlugin {
         }
         //getLogger().info("tare");
         return true; // return true if the villager does not have the trade
+    }
+
+    public static boolean isVillagerEmployed(Villager villager) {
+        return villager.getProfession() != Villager.Profession.NONE;
     }
 
     private boolean checkBiome(Villager villager, List< String > biomes){
