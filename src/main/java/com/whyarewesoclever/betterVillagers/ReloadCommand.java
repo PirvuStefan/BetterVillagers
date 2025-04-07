@@ -162,9 +162,11 @@ public class ReloadCommand extends BukkitCommand implements Listener {
             // create the command
              Inventory inventory = Bukkit.createInventory(player, 9 * 6, ChatColor.DARK_AQUA + "ᴄʀᴇᴀᴛᴇ ᴄᴜꜱᴛᴏᴍ ᴛʀᴀᴅᴇꜱ");
              ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+                NBTItem nbtItem_black = new NBTItem(item);
+                nbtItem_black.mergeCompound(NBT.parseNBT("{display:{Lore:['[\"\",{\"text\":\".\",\"italic\":false,\"color\":\"black\"}]']}}"));
 
              for( int i = 0; i < 9 * 6; i++){
-                 inventory.setItem(i, item);
+                 inventory.setItem(i, nbtItem_black.getItem());
              }
              item = new ItemStack(Material.BARRIER);
             NBTItem nbtItem1 = new NBTItem(item);
@@ -177,7 +179,9 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                 inventory.setItem(28, item);
                 inventory.setItem(34, item);
              item = new ItemStack(Material.EXPERIENCE_BOTTLE);
-                inventory.setItem(31, item);
+                NBTItem nbtItem2 = new NBTItem(item);
+                nbtItem2.mergeCompound(NBT.parseNBT("{display:{Name:'[\"\",{\"text\":\"Create Trade\",\"italic\":false,\"color\":\"yellow\"}]',Lore:['[\"\"]','[\"\",{\"text\":\"Create a trade configuration for the items selected.\",\"italic\":false,\"color\":\"white\"}]','[\"\",{\"text\":\"Check the folder \\'BetterVillagers\\' to see the .yml file .\",\"italic\":false,\"color\":\"white\"}]']}}"));
+                inventory.setItem(31, nbtItem2.getItem());
 
              getServer().getPluginManager().registerEvents(this, BetterVillagers.getInstance());
              //inventory.setItem(3, item );
@@ -209,15 +213,20 @@ public class ReloadCommand extends BukkitCommand implements Listener {
 
         if (event.getInventory().getHolder() instanceof Player && block) {
 
-            if (event.getCurrentItem() != null && event.getCurrentItem().getType() == Material.BLACK_STAINED_GLASS_PANE) {
+                NBTItem nbtItem_now = new NBTItem(event.getCurrentItem());
+                String json_now = nbtItem_now.toString();
+                String compare = "{display:{Lore:['[\"\",{\"text\":\".\",\"italic\":false,\"color\":\"black\"}]']}}";
+
+            if (event.getCurrentItem() != null && event.getCurrentItem().getType() == Material.BLACK_STAINED_GLASS_PANE && json_now.equals(compare)) {
                 event.setCancelled(true);
             }
-            if( event.getCurrentItem() != null && event.getCurrentItem().getType() == Material.BARRIER){
+            if( event.getCurrentItem() != null && event.getCurrentItem().getType() == Material.BARRIER && json_now.contains("Leave the menu") ){
                 event.setCancelled(true);
                 player.closeInventory();
                 HandlerList.unregisterAll(this);
             }
-            if( event.getCurrentItem() != null && event.getCurrentItem().getType() == Material.EXPERIENCE_BOTTLE){
+            if( event.getCurrentItem() != null && event.getCurrentItem().getType() == Material.EXPERIENCE_BOTTLE && json_now.contains("Create Trade") ){
+
                 event.setCancelled(true);
 
               if( !checkInventoryComplete(inventory) ){
