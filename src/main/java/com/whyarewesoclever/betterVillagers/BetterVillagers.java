@@ -181,28 +181,29 @@ public final class BetterVillagers extends JavaPlugin {
 
     private void updateVillagerTrades(){
         if( !getConfig().getBoolean("Enable") ) return;
-        for (Villager villagerNow : Bukkit.getWorld("world").getEntitiesByClass(Villager.class)) {
+        for( String world : worldsList) {
+            for (Villager villagerNow : Bukkit.getWorld(world).getEntitiesByClass(Villager.class)) {
 
-            for (Map.Entry<String, VillagerTrade> entry : villagerTrades.entrySet()) {
+                for (Map.Entry<String, VillagerTrade> entry : villagerTrades.entrySet()) {
 
-                VillagerTrade villagerTrade = entry.getValue();
+                    VillagerTrade villagerTrade = entry.getValue();
 
-                // add trade logic if it meets the conditions, and detele the trade if they do not meet the criteria anymore
-                boolean biome = checkBiome(villagerNow, villagerTrade.getBiomes());
-                boolean bannedWorlds = checkBannedWorlds(villagerNow, villagerTrade.getBannedWorlds());
-                boolean day_night = checkDayNight(villagerNow, villagerTrade.getDayNight());
-                boolean weather = checkWeather(villagerNow, villagerTrade.getWeather());
+                    // add trade logic if it meets the conditions, and detele the trade if they do not meet the criteria anymore
+                    boolean biome = checkBiome(villagerNow, villagerTrade.getBiomes());
+                    boolean bannedWorlds = checkBannedWorlds(villagerNow, villagerTrade.getBannedWorlds());
+                    boolean day_night = checkDayNight(villagerNow, villagerTrade.getDayNight());
+                    boolean weather = checkWeather(villagerNow, villagerTrade.getWeather());
 
-                if( biome && bannedWorlds && day_night && weather && checkTrade(villagerNow, villagerTrade) ) {
-                    addCustomTrade(villagerNow, villagerTrade);
-                } else if( !biome || !bannedWorlds || !day_night || !weather ) {
-                    deleteCustomTrade(villagerNow, villagerTrade);
+                    if (biome && bannedWorlds && day_night && weather && checkTrade(villagerNow, villagerTrade)) {
+                        addCustomTrade(villagerNow, villagerTrade);
+                    } else if (!biome || !bannedWorlds || !day_night || !weather) {
+                        deleteCustomTrade(villagerNow, villagerTrade);
+                    }
+
+
                 }
 
-
-
             }
-
         }
     }
 
