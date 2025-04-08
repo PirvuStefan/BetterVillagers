@@ -214,13 +214,6 @@ public final class BetterVillagers extends JavaPlugin {
 
     private static boolean isProffesion(Villager villagerNow, VillagerTrade villagerTrade) {
         List < String > professions = villagerTrade.getProfessions();
-        //getLogger().info(villagerNow.getProfession().name());
-        //getLogger().info(String.valueOf(professions.size()));
-
-//                    for (String profession : professions) {
-//                        getLogger().info("Profession: " + profession);
-//                    }
-
 
         // add trade logic if it meets the conditions, and detele the trade if they do not meet the criteria anymore
         boolean proffesion = professions.contains(villagerNow.getProfession().name());
