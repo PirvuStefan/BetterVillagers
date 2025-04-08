@@ -193,20 +193,7 @@ public final class BetterVillagers extends JavaPlugin {
                 for (Map.Entry<String, VillagerTrade> entry : villagerTrades.entrySet()) {
 
                     VillagerTrade villagerTrade = entry.getValue();
-                    List < String > professions = villagerTrade.getProfessions();
-                    //getLogger().info(villagerNow.getProfession().name());
-                    //getLogger().info(String.valueOf(professions.size()));
-
-//                    for (String profession : professions) {
-//                        getLogger().info("Profession: " + profession);
-//                    }
-
-
-                    // add trade logic if it meets the conditions, and detele the trade if they do not meet the criteria anymore
-                    boolean proffesion = professions.contains(villagerNow.getProfession().name());
-                    if(professions.isEmpty()) proffesion = true;
-                    if( professions.contains("ALL") ) proffesion = true;
-                    if( professions.contains("all") ) proffesion = true;
+                    boolean proffesion = isProffesion(villagerNow, villagerTrade);
                     boolean biome = checkBiome(villagerNow, villagerTrade.getBiomes());
                     boolean bannedWorlds = checkBannedWorlds(villagerNow, villagerTrade.getBannedWorlds());
                     boolean day_night = checkDayNight(villagerNow, villagerTrade.getDayNight());
@@ -223,6 +210,24 @@ public final class BetterVillagers extends JavaPlugin {
 
             }
         }
+    }
+
+    private static boolean isProffesion(Villager villagerNow, VillagerTrade villagerTrade) {
+        List < String > professions = villagerTrade.getProfessions();
+        //getLogger().info(villagerNow.getProfession().name());
+        //getLogger().info(String.valueOf(professions.size()));
+
+//                    for (String profession : professions) {
+//                        getLogger().info("Profession: " + profession);
+//                    }
+
+
+        // add trade logic if it meets the conditions, and detele the trade if they do not meet the criteria anymore
+        boolean proffesion = professions.contains(villagerNow.getProfession().name());
+        if(professions.isEmpty()) proffesion = true;
+        if( professions.contains("ALL") ) proffesion = true;
+        if( professions.contains("all") ) proffesion = true;
+        return proffesion;
     }
 
     private void addCustomTrade(Villager villager, VillagerTrade villagerTrade) {
