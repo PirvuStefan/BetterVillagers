@@ -312,7 +312,7 @@ public final class BetterVillagers extends JavaPlugin {
     }
 
     public static boolean isVillagerEmployed(Villager villager) {
-        return villager.getProfession() != Villager.Profession.NONE;
+        return villager.getProfession() != Villager.Profession.NONE && villager.getProfession() != Villager.Profession.NITWIT;
     } // check if the villager is employed ( not a nitwit, no unemployed villager, no baby villager )
 
     private boolean checkBiome(Villager villager, List< String > biomes){
