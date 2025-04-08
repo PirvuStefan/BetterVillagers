@@ -188,7 +188,7 @@ public final class BetterVillagers extends JavaPlugin {
         for( String world : worldsList) {
             for (Villager villagerNow : Bukkit.getWorld(world).getEntitiesByClass(Villager.class)) {
 
-                if (!isVillagerEmployed(villagerNow)) continue;
+                if (!isVillagerEmployed(villagerNow)) continue; // nitwit, unemployed, baby villager
 
                 for (Map.Entry<String, VillagerTrade> entry : villagerTrades.entrySet()) {
 
@@ -215,7 +215,7 @@ public final class BetterVillagers extends JavaPlugin {
     private static boolean isProffesion(Villager villagerNow, VillagerTrade villagerTrade) {
         List < String > professions = villagerTrade.getProfessions();
 
-        // add trade logic if it meets the conditions, and detele the trade if they do not meet the criteria anymore
+        // check if the villager has the profession
         boolean proffesion = professions.contains(villagerNow.getProfession().name());
         if(professions.isEmpty()) proffesion = true;
         if( professions.contains("ALL") ) proffesion = true;
