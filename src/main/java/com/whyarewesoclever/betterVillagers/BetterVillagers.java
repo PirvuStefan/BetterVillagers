@@ -125,6 +125,7 @@ public final class BetterVillagers extends JavaPlugin {
             int amount_output = 0;
             List<String> biomes = new ArrayList<>();
             List<String> bannedWorlds = new ArrayList<>();
+            List <String> professions = new ArrayList<>();
             String day_night = "both"; // default value
             String weather = "any"; // default value
 
@@ -151,6 +152,9 @@ public final class BetterVillagers extends JavaPlugin {
                     day_night = line.substring(11);
                 } else if (line.startsWith("weather: ")) {
                     weather = line.substring(9);
+                } else if (line.startsWith("professions:")) {
+                   professions = Arrays.asList(line.substring(14, line.length() - 1).split(",\\s*"));
+                    //getLogger().info("Professions: " + professions.get(2));
                 }
             }
 
@@ -171,7 +175,7 @@ public final class BetterVillagers extends JavaPlugin {
 
 
             // Create a new VillagerTrade object with the parsed values
-            return new VillagerTrade(material_input, material_output, json_input, json_output, amount_input, amount_output, biomes, bannedWorlds, day_night, weather);
+            return new VillagerTrade(material_input, material_output, json_input, json_output, amount_input, amount_output, biomes, bannedWorlds, day_night, weather, professions);
 
         } catch (IOException e) {
             getLogger().warning("Could not read file " + file.getName());
@@ -189,6 +193,13 @@ public final class BetterVillagers extends JavaPlugin {
                 for (Map.Entry<String, VillagerTrade> entry : villagerTrades.entrySet()) {
 
                     VillagerTrade villagerTrade = entry.getValue();
+                    List < String > professions = villagerTrade.getProfessions();
+                    //getLogger().info(villagerNow.getProfession().name());
+                    //getLogger().info(String.valueOf(professions.size()));
+                    for (String profession : professions) {
+                        getLogger().info("Profession: " + profession);
+                    }
+
 
                     // add trade logic if it meets the conditions, and detele the trade if they do not meet the criteria anymore
                     boolean biome = checkBiome(villagerNow, villagerTrade.getBiomes());
