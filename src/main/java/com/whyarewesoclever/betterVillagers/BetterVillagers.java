@@ -196,18 +196,23 @@ public final class BetterVillagers extends JavaPlugin {
                     List < String > professions = villagerTrade.getProfessions();
                     //getLogger().info(villagerNow.getProfession().name());
                     //getLogger().info(String.valueOf(professions.size()));
-                    for (String profession : professions) {
-                        getLogger().info("Profession: " + profession);
-                    }
+
+//                    for (String profession : professions) {
+//                        getLogger().info("Profession: " + profession);
+//                    }
 
 
                     // add trade logic if it meets the conditions, and detele the trade if they do not meet the criteria anymore
+                    boolean proffesion = professions.contains(villagerNow.getProfession().name());
+                    if(professions.isEmpty()) proffesion = true;
+                    if( professions.contains("ALL") ) proffesion = true;
+                    if( professions.contains("all") ) proffesion = true;
                     boolean biome = checkBiome(villagerNow, villagerTrade.getBiomes());
                     boolean bannedWorlds = checkBannedWorlds(villagerNow, villagerTrade.getBannedWorlds());
                     boolean day_night = checkDayNight(villagerNow, villagerTrade.getDayNight());
                     boolean weather = checkWeather(villagerNow, villagerTrade.getWeather());
 
-                    if (biome && bannedWorlds && day_night && weather && checkTrade(villagerNow, villagerTrade)) {
+                    if (biome && bannedWorlds && day_night && weather && proffesion && checkTrade(villagerNow, villagerTrade)) {
                         addCustomTrade(villagerNow, villagerTrade);
                     } else if (!biome || !bannedWorlds || !day_night || !weather) {
                         deleteCustomTrade(villagerNow, villagerTrade);
