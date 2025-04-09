@@ -80,6 +80,6 @@ public class VillagerTrade {
     }
     public int getAmountOutput() {
         return amount_output;
-    }
+    }//da
 
 } // write once, debug everywhere
