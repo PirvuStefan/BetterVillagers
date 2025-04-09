@@ -308,6 +308,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
             writer.write("day_night: both\n"); // default value is both ( that means it can be traded at any time )
             writer.write("weather: any\n"); // default value is any ( that means it can be traded at any weather )
             writer.write("professions: [all]\n"); // default value is all ( that means it can be traded by any villager )
+            writer.write("level: NOVICE\n"); // any level is fine by default
 
         } catch (IOException e) {
             getLogger().warning("Could not write to file " + fileName + ".yml");

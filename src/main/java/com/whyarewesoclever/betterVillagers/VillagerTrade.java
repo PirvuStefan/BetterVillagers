@@ -9,7 +9,7 @@ public class VillagerTrade {
     public List< String > biomes;
     public List < String > bannedWorlds;
     public List < String > professions = new ArrayList<>();
-
+    String level ; // default value
     String day_night = "both"; // default value
     // modifiers for it to be day, night, or both
     String weather = "any"; // default value
@@ -21,7 +21,7 @@ public class VillagerTrade {
         this.json_input = json1;
         this.json_output = json2;
     }
-    public VillagerTrade(String material1, String material2, String json1,String json2, int number1, int number2, List<String> biomes, List<String> bannedWorlds, String day_night, String weather, List<String> professions){
+    public VillagerTrade(String material1, String material2, String json1,String json2, int number1, int number2, List<String> biomes, List<String> bannedWorlds, String day_night, String weather, List<String> professions, String level){
         this.material_input = material1;
         this.material_output = material2;
         this.json_input = json1;
@@ -33,6 +33,7 @@ public class VillagerTrade {
         this.day_night = day_night;
         this.weather = weather;
         this.professions = professions;
+        this.level = level;
     }
     public VillagerTrade(int number1, int number2){
         this.amount_input = number1;
@@ -87,6 +88,9 @@ public class VillagerTrade {
     }
     public List<String> getProfessions() {
         return professions;
+    }
+    public String getLevel() {
+        return level;
     }
 
 } // write once, debug everywhere
