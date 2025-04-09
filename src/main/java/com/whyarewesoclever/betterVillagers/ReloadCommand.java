@@ -30,8 +30,8 @@ import static org.bukkit.Bukkit.getServer;
 
 
 public class ReloadCommand extends BukkitCommand implements Listener {
-    Player player_1;
-    Inventory inventory_test = Bukkit.createInventory(player_1, 9 * 6, ChatColor.DARK_AQUA + "ᴄʀᴇᴀᴛᴇ ᴄᴜꜱᴛᴏᴍ ᴛʀᴀᴅᴇꜱ");
+
+
 
         public ReloadCommand(String name) {
             super(name);
@@ -109,6 +109,11 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                     WriteBiomes(strings[1], strings[3]);
                     sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Biomes set to " + strings[3] + " for the trade " + strings[1]);
                 }
+                if( strings[2].equals("professions")){
+                    // write to the file
+                    WriteProfessions(strings[1], strings[3]);
+                    sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Professions set to " + strings[3] + " for the trade " + strings[1]);
+                }
             }
             if( strings[0].equals("create")) createCommand((Player) sender); // we do have the create command here
 
@@ -132,6 +137,8 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                 return Collections.singletonList("weather");
             if( args.length == 3 && args[2].startsWith("b"))
                 return Collections.singletonList("biomes");
+            if( args.length == 3 && args[2].startsWith("p"))
+                return Collections.singletonList("professions");
             if (args.length >= 3 && args[2].equals("weather")) {
                 if (args.length == 4 && args[3].startsWith("a"))
                     return Collections.singletonList("any");
@@ -379,7 +386,29 @@ public class ReloadCommand extends BukkitCommand implements Listener {
 
     }
 
+    private void WriteProfessions(String fileName, String professions) {
 
+        try (java.io.FileWriter writer = new java.io.FileWriter(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml"), true)) {
+
+            List<String> lines = java.nio.file.Files.readAllLines(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml").toPath());
+
+            for (int i = 0; i < lines.size(); i++) {
+                if (lines.get(i).startsWith("professions: ")) {
+                    lines.set(i, "professions: [" + professions + "]");
+                    //getLogger().info(lines.get(i));
+                }
+                getLogger().info(lines.get(i));
+            }
+            java.nio.file.Files.write(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml").toPath(), lines);
+
+
+
+        } catch (IOException e) {
+            getLogger().warning("Could not write to file " + fileName + ".yml");
+            throw new RuntimeException(e);
+        }
+
+    }
 
 
 
