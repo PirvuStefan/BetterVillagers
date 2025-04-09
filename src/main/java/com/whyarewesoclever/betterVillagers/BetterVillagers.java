@@ -207,7 +207,7 @@ public final class BetterVillagers extends JavaPlugin {
 
             }
         }
-    }
+    } // baa mancatias
 
     private void addCustomTrade(Villager villager, VillagerTrade villagerTrade) {
         List<MerchantRecipe> trades = new ArrayList<>(villager.getRecipes());
