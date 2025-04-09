@@ -33,196 +33,196 @@ public class ReloadCommand extends BukkitCommand implements Listener {
 
 
 
-        public ReloadCommand(String name) {
-            super(name);
-            this.setDescription("Create custom villager trades .\n Run the command /bettervillagers create .\nReload the config file to apply changes . \n Requires permission bettervillagers.commands");
-            this.setUsage("\n/bettervillagers reload\n/bettervillagers create");
-            this.setPermission("bettervillagers.commands");
+    public ReloadCommand(String name) {
+        super(name);
+        this.setDescription("Create custom villager trades .\n Run the command /bettervillagers create .\nReload the config file to apply changes . \n Requires permission bettervillagers.commands");
+        this.setUsage("\n/bettervillagers reload\n/bettervillagers create");
+        this.setPermission("bettervillagers.commands");
+    }
+
+    @Override
+    public boolean execute(CommandSender sender, String s, String[] strings){
+        if (strings.length == 0) {
+            if (!(sender instanceof Player)) {
+                getLogger().info("No argument provided. Try /bettervillagers reload");
+
+            }
+            return false;
         }
-
-        @Override
-        public boolean execute(CommandSender sender, String s, String[] strings){
-            if (strings.length == 0) {
-                if (!(sender instanceof Player)) {
-                    getLogger().info("No argument provided. Try /bettervillagers reload");
-
+        tabComplete(sender, s, strings);
+        if (sender instanceof Player) {
+            boolean permission = sender.hasPermission("bettervillagers.commands");
+            if (!permission) {
+                if (strings[0].equals("reload")) {
+                    if (sender.hasPermission("bettervillagers.reload"))
+                        permission = true;
                 }
+                if (strings[0].equals("create") || strings[0].equals("set")) {
+                    if (sender.hasPermission("bettervillagers.create"))
+                        permission = true;
+                }
+            }
+            if (!permission) {
+                sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A00D0D") + "You do not have permission to use this command!");
                 return false;
             }
-            tabComplete(sender, s, strings);
-            if (sender instanceof Player) {
-                boolean permission = sender.hasPermission("bettervillagers.commands");
-                if (!permission) {
-                    if (strings[0].equals("reload")) {
-                        if (sender.hasPermission("bettervillagers.reload"))
-                            permission = true;
-                    }
-                    if (strings[0].equals("create") || strings[0].equals("set")) {
-                        if (sender.hasPermission("bettervillagers.create"))
-                            permission = true;
-                    }
-                }
-                if (!permission) {
-                    sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A00D0D") + "You do not have permission to use this command!");
-                    return false;
-                }
-            } // we do have permission to use the command
-            if( strings.length > 1 && strings[0].equals("create") ){
-                sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Too many arguments provided. Try /bettervillagers reload or /bettervillagers create");
-                return false;
-            }
-            if( strings[0].equals("reload") ){
-                sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Reloading config file .");
-                BetterVillagers.getInstance().reloadConfig();
-                BetterVillagers.getInstance().initialiseKeys();
-                BetterVillagers.getInstance().initialiseMap();
-                BetterVillagers.worldsList.addAll(BetterVillagers.getInstance().getConfig().getStringList("Worlds"));
-                return true;
-            }
-            if( !strings[0].equals("create") && !strings[0].equals("set") ){
-                sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Invalid argument provided. Try /bettervillagers reload or /bettervillagers create");
-                return false;
-            }
-            if( !(sender instanceof Player) && strings[0].equals("create") ){
-                getLogger().info("This command can only be run by a player .");
-                return false;
-            }
-
-            // bettervillagers set name.yml whether rain
-
-
-            // now we know that the argument is "create"
-
-
-            // bettervillagers create
-            if( strings.length == 4 ){ // right now strings[0].equals("set") is reddundant
-                if( strings[2].equals("weather") ){
-                    WriteWheaterToFile(strings[1], strings[3]);
-                    sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Weather set to " + strings[3] + " for the trade " + strings[1]);
-                }
-                if( strings[2].equals("day_night") ){
-                    WriteDay_NightToFile(strings[1], strings[3]);
-                    sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Day/Night set to " + strings[3] + " for the trade " + strings[1]);
-                }
-                if( strings[2].equals("biomes")){
-                    // write to the file
-                    WriteBiomes(strings[1], strings[3]);
-                    sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Biomes set to " + strings[3] + " for the trade " + strings[1]);
-                }
-                if( strings[2].equals("professions")){
-                    // write to the file
-                    WriteProfessions(strings[1], strings[3]);
-                    sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Professions set to " + strings[3] + " for the trade " + strings[1]);
-                }
-            }
-            if( strings[0].equals("create")) createCommand((Player) sender); // we do have the create command here
-
-
-
+        } // we do have permission to use the command
+        if( strings.length > 1 && strings[0].equals("create") ){
+            sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Too many arguments provided. Try /bettervillagers reload or /bettervillagers create");
+            return false;
+        }
+        if( strings[0].equals("reload") ){
+            sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Reloading config file .");
+            BetterVillagers.getInstance().reloadConfig();
+            BetterVillagers.getInstance().initialiseKeys();
+            BetterVillagers.getInstance().initialiseMap();
+            BetterVillagers.worldsList.addAll(BetterVillagers.getInstance().getConfig().getStringList("Worlds"));
             return true;
         }
+        if( !strings[0].equals("create") && !strings[0].equals("set") ){
+            sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Invalid argument provided. Try /bettervillagers reload or /bettervillagers create");
+            return false;
+        }
+        if( !(sender instanceof Player) && strings[0].equals("create") ){
+            getLogger().info("This command can only be run by a player .");
+            return false;
+        }
 
-        @Override
-        public @Nullable List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
+        // bettervillagers set name.yml whether rain
 
-            if (args.length == 1 && args[0].startsWith("r"))
-                return Collections.singletonList("reload");
-            if (args.length == 1 && args[0].startsWith("c"))
-                return Collections.singletonList("create");
-            if (args.length == 1 && args[0].startsWith("s"))
-                return Collections.singletonList("set");
-            if (args.length == 2 && args[0].equals("set"))
-                return keys; // here we should return the list of files in the Drops folder
-            if (args.length == 3 && args[2].startsWith("w"))
-                return Collections.singletonList("weather");
-            if( args.length == 3 && args[2].startsWith("b"))
-                return Collections.singletonList("biomes");
-            if( args.length == 3 && args[2].startsWith("p"))
-                return Collections.singletonList("professions");
-            if (args.length >= 3 && args[2].equals("weather")) {
-                if (args.length == 4 && args[3].startsWith("a"))
-                    return Collections.singletonList("any");
-                if (args.length == 4 && args[3].startsWith("r"))
-                    return Collections.singletonList("rain");
-                if (args.length == 4 && args[3].startsWith("t"))
-                    return Collections.singletonList("thunder"); // can't do switch case here
-                if (args.length == 4 && args[3].startsWith("c"))
-                    return Collections.singletonList("clear");
+
+        // now we know that the argument is "create"
+
+
+        // bettervillagers create
+        if( strings.length == 4 ){ // right now strings[0].equals("set") is reddundant
+            if( strings[2].equals("weather") ){
+                WriteWheaterToFile(strings[1], strings[3]);
+                sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Weather set to " + strings[3] + " for the trade " + strings[1]);
             }
-            if (args.length == 3 && args[2].startsWith("d"))
-                return Collections.singletonList("day_night");
-
-            if (args.length >= 3 && args[2].equals("day_night")) {
-                if (args.length == 4 && args[3].startsWith("b"))
-                    return Collections.singletonList("both");
-                if (args.length == 4 && args[3].startsWith("d"))
-                    return Collections.singletonList("day");
-                if (args.length == 4 && args[3].startsWith("n"))
-                    return Collections.singletonList("night");
+            if( strings[2].equals("day_night") ){
+                WriteDay_NightToFile(strings[1], strings[3]);
+                sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Day/Night set to " + strings[3] + " for the trade " + strings[1]);
             }
-            return Collections.emptyList();
+            if( strings[2].equals("biomes")){
+                // write to the file
+                WriteBiomes(strings[1], strings[3]);
+                sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Biomes set to " + strings[3] + " for the trade " + strings[1]);
+            }
+            if( strings[2].equals("professions")){
+                // write to the file
+                WriteProfessions(strings[1], strings[3]);
+                sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Professions set to " + strings[3] + " for the trade " + strings[1]);
+            }
         }
-
-        public void createCommand(Player player){
-
-            player.playSound(player.getLocation(), org.bukkit.Sound.UI_LOOM_TAKE_RESULT, 10, 1);
-            // create the command
-             Inventory inventory = Bukkit.createInventory(player, 9 * 6, ChatColor.DARK_AQUA + "ᴄʀᴇᴀᴛᴇ ᴄᴜꜱᴛᴏᴍ ᴛʀᴀᴅᴇꜱ");
-             ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
-                NBTItem nbtItem_black = new NBTItem(item);
-                nbtItem_black.mergeCompound(NBT.parseNBT("{display:{Lore:['[\"\",{\"text\":\".\",\"italic\":false,\"color\":\"black\"}]']}}"));
-
-             for( int i = 0; i < 9 * 6; i++){
-                 inventory.setItem(i, nbtItem_black.getItem());
-             }
-             item = new ItemStack(Material.BARRIER);
-            NBTItem nbtItem1 = new NBTItem(item);
-
-            nbtItem1.mergeCompound(NBT.parseNBT("{display:{Name:'[\"\",{\"text\":\"Close\",\"italic\":false}]',Lore:['[\"\"]','[\"\",{\"text\":\"Leave the menu\",\"italic\":false}]']}}"));
-             inventory.setItem(49, nbtItem1.getItem());
+        if( strings[0].equals("create")) createCommand((Player) sender); // we do have the create command here
 
 
-             item = new ItemStack(Material.AIR);
-                inventory.setItem(28, item);
-                inventory.setItem(34, item);
-             item = new ItemStack(Material.EXPERIENCE_BOTTLE);
-                NBTItem nbtItem2 = new NBTItem(item);
-                nbtItem2.mergeCompound(NBT.parseNBT("{display:{Name:'[\"\",{\"text\":\"Create Trade\",\"italic\":false,\"color\":\"yellow\"}]',Lore:['[\"\"]','[\"\",{\"text\":\"Create a trade configuration for the items selected.\",\"italic\":false,\"color\":\"white\"}]','[\"\",{\"text\":\"Check the folder \\'BetterVillagers\\' to see the .yml file .\",\"italic\":false,\"color\":\"white\"}]']}}"));
-                inventory.setItem(31, nbtItem2.getItem());
 
-             getServer().getPluginManager().registerEvents(this, BetterVillagers.getInstance());
-             //inventory.setItem(3, item );
-             player.openInventory(inventory);
-           // if ( ( player.getOpenInventory().getTopInventory().equals(inventory) ))
-              //  BetterVillagers.glass++;
+        return true;
+    }
+
+    @Override
+    public @Nullable List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
+
+        if (args.length == 1 && args[0].startsWith("r"))
+            return Collections.singletonList("reload");
+        if (args.length == 1 && args[0].startsWith("c"))
+            return Collections.singletonList("create");
+        if (args.length == 1 && args[0].startsWith("s"))
+            return Collections.singletonList("set");
+        if (args.length == 2 && args[0].equals("set"))
+            return keys; // here we should return the list of files in the Drops folder
+        if (args.length == 3 && args[2].startsWith("w"))
+            return Collections.singletonList("weather");
+        if( args.length == 3 && args[2].startsWith("b"))
+            return Collections.singletonList("biomes");
+        if( args.length == 3 && args[2].startsWith("p"))
+            return Collections.singletonList("professions");
+        if (args.length >= 3 && args[2].equals("weather")) {
+            if (args.length == 4 && args[3].startsWith("a"))
+                return Collections.singletonList("any");
+            if (args.length == 4 && args[3].startsWith("r"))
+                return Collections.singletonList("rain");
+            if (args.length == 4 && args[3].startsWith("t"))
+                return Collections.singletonList("thunder"); // can't do switch case here
+            if (args.length == 4 && args[3].startsWith("c"))
+                return Collections.singletonList("clear");
         }
+        if (args.length == 3 && args[2].startsWith("d"))
+            return Collections.singletonList("day_night");
 
-        boolean checkInventoryComplete(Inventory inventory){
-            int i =  28;
-                if( inventory.getItem(i) == null || inventory.getItem(i).getType() == Material.AIR)
-                    return false;
-                i = 34;
-            return inventory.getItem(i) != null && inventory.getItem(i).getType() != Material.AIR;
+        if (args.length >= 3 && args[2].equals("day_night")) {
+            if (args.length == 4 && args[3].startsWith("b"))
+                return Collections.singletonList("both");
+            if (args.length == 4 && args[3].startsWith("d"))
+                return Collections.singletonList("day");
+            if (args.length == 4 && args[3].startsWith("n"))
+                return Collections.singletonList("night");
         }
+        return Collections.emptyList();
+    }
+
+    public void createCommand(Player player){
+
+        player.playSound(player.getLocation(), org.bukkit.Sound.UI_LOOM_TAKE_RESULT, 10, 1);
+        // create the command
+        Inventory inventory = Bukkit.createInventory(player, 9 * 6, ChatColor.DARK_AQUA + "ᴄʀᴇᴀᴛᴇ ᴄᴜꜱᴛᴏᴍ ᴛʀᴀᴅᴇꜱ");
+        ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+        NBTItem nbtItem_black = new NBTItem(item);
+        nbtItem_black.mergeCompound(NBT.parseNBT("{display:{Lore:['[\"\",{\"text\":\".\",\"italic\":false,\"color\":\"black\"}]']}}"));
+
+        for( int i = 0; i < 9 * 6; i++){
+            inventory.setItem(i, nbtItem_black.getItem());
+        }
+        item = new ItemStack(Material.BARRIER);
+        NBTItem nbtItem1 = new NBTItem(item);
+
+        nbtItem1.mergeCompound(NBT.parseNBT("{display:{Name:'[\"\",{\"text\":\"Close\",\"italic\":false}]',Lore:['[\"\"]','[\"\",{\"text\":\"Leave the menu\",\"italic\":false}]']}}"));
+        inventory.setItem(49, nbtItem1.getItem());
+
+
+        item = new ItemStack(Material.AIR);
+        inventory.setItem(28, item);
+        inventory.setItem(34, item);
+        item = new ItemStack(Material.EXPERIENCE_BOTTLE);
+        NBTItem nbtItem2 = new NBTItem(item);
+        nbtItem2.mergeCompound(NBT.parseNBT("{display:{Name:'[\"\",{\"text\":\"Create Trade\",\"italic\":false,\"color\":\"yellow\"}]',Lore:['[\"\"]','[\"\",{\"text\":\"Create a trade configuration for the items selected.\",\"italic\":false,\"color\":\"white\"}]','[\"\",{\"text\":\"Check the folder \\'BetterVillagers\\' to see the .yml file .\",\"italic\":false,\"color\":\"white\"}]']}}"));
+        inventory.setItem(31, nbtItem2.getItem());
+
+        getServer().getPluginManager().registerEvents(this, BetterVillagers.getInstance());
+        //inventory.setItem(3, item );
+        player.openInventory(inventory);
+        // if ( ( player.getOpenInventory().getTopInventory().equals(inventory) ))
+        //  BetterVillagers.glass++;
+    }
+
+    boolean checkInventoryComplete(Inventory inventory){
+        int i =  28;
+        if( inventory.getItem(i) == null || inventory.getItem(i).getType() == Material.AIR)
+            return false;
+        i = 34;
+        return inventory.getItem(i) != null && inventory.getItem(i).getType() != Material.AIR;
+    }
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
 
 
 
-            Player player = (Player) event.getWhoClicked();
-            InventoryView view = player.getOpenInventory();
-             Inventory inventory = event.getInventory();
-            //boolean block = !view.getTitle().equals(ChatColor.DARK_AQUA + "ᴄʀᴇᴀᴛᴇ ᴄᴜꜱᴛᴏᴍ ᴛʀᴀᴅᴇꜱ");
-            boolean block = view.getTitle().equals(ChatColor.DARK_AQUA + "ᴄʀᴇᴀᴛᴇ ᴄᴜꜱᴛᴏᴍ ᴛʀᴀᴅᴇꜱ");
+        Player player = (Player) event.getWhoClicked();
+        InventoryView view = player.getOpenInventory();
+        Inventory inventory = event.getInventory();
+        //boolean block = !view.getTitle().equals(ChatColor.DARK_AQUA + "ᴄʀᴇᴀᴛᴇ ᴄᴜꜱᴛᴏᴍ ᴛʀᴀᴅᴇꜱ");
+        boolean block = view.getTitle().equals(ChatColor.DARK_AQUA + "ᴄʀᴇᴀᴛᴇ ᴄᴜꜱᴛᴏᴍ ᴛʀᴀᴅᴇꜱ");
         getLogger().info(view.getTitle());
         if( !block) return;
 
         if (event.getInventory().getHolder() instanceof Player && block) {
 
-                NBTItem nbtItem_now = new NBTItem(event.getCurrentItem());
-                String json_now = nbtItem_now.toString();
-                String compare = "{display:{Lore:['[\"\",{\"text\":\".\",\"italic\":false,\"color\":\"black\"}]']}}";
+            NBTItem nbtItem_now = new NBTItem(event.getCurrentItem());
+            String json_now = nbtItem_now.toString();
+            String compare = "{display:{Lore:['[\"\",{\"text\":\".\",\"italic\":false,\"color\":\"black\"}]']}}";
 
             if (event.getCurrentItem() != null && event.getCurrentItem().getType() == Material.BLACK_STAINED_GLASS_PANE && json_now.equals(compare)) {
                 event.setCancelled(true);
@@ -236,16 +236,16 @@ public class ReloadCommand extends BukkitCommand implements Listener {
 
                 event.setCancelled(true);
 
-              if( !checkInventoryComplete(inventory) ){
-                  player.closeInventory();
-                  player.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Please fill all the air slots with the items you want to create a trade .\n First one is what you give the villager, second one is what you get .");
-              }
-              else{
-                  player.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Trade created successfully .");
-                  player.playSound(player.getLocation(), org.bukkit.Sound.BLOCK_AMETHYST_BLOCK_BREAK, 10, 1);
-                  // here we should create the trade file and save it to the plugin's directory
+                if( !checkInventoryComplete(inventory) ){
+                    player.closeInventory();
+                    player.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Please fill all the air slots with the items you want to create a trade .\n First one is what you give the villager, second one is what you get .");
+                }
+                else{
+                    player.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Trade created successfully .");
+                    player.playSound(player.getLocation(), org.bukkit.Sound.BLOCK_AMETHYST_BLOCK_BREAK, 10, 1);
+                    // here we should create the trade file and save it to the plugin's directory
 
-                   // get the item from index 28 and 34
+                    // get the item from index 28 and 34
                     ItemStack item1 = inventory.getItem(28);
                     ItemStack item2 = inventory.getItem(34);
                     NBTItem nbtItem1 = new NBTItem(item1);
@@ -262,14 +262,14 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                     name_id = generateUniqueId(name_id);
                     int amount1 = item1.getAmount();
                     int amount2 = item2.getAmount();
-                  try {
-                      java.nio.file.Files.createFile(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + name_id + ".yml").toPath());
-                  } catch (IOException e) {
-                      e.printStackTrace();
-                  }
+                    try {
+                        java.nio.file.Files.createFile(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + name_id + ".yml").toPath());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
                     WriteToFile(name_id, item1.getType().name(), item2.getType().name(), json1, json2, amount1, amount2);
-              }
+                }
 
 
 
@@ -331,8 +331,8 @@ public class ReloadCommand extends BukkitCommand implements Listener {
             } // da
             java.nio.file.Files.write(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml").toPath(), lines);
 
-                // this is decent, but it does delete the file and create a new one with the updated content ( not ideal )
-                // since we are using the same file, we should just update the content of the file cause we lose the 'date created' and 'last modified' attributes
+            // this is decent, but it does delete the file and create a new one with the updated content ( not ideal )
+            // since we are using the same file, we should just update the content of the file cause we lose the 'date created' and 'last modified' attributes
 
 
         } catch (IOException e) {
@@ -385,7 +385,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
             throw new RuntimeException(e);
         }
 
-    }
+    }//da
 
     private void WriteProfessions(String fileName, String professions) {
 
