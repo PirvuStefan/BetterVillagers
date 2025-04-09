@@ -125,6 +125,8 @@ public final class BetterVillagers extends JavaPlugin {
             int amount_output = 0;
             List<String> biomes = new ArrayList<>();
             List<String> bannedWorlds = new ArrayList<>();
+            List <String> professions = new ArrayList<>();
+            String level = null;
             String day_night = "both"; // default value
             String weather = "any"; // default value
 
@@ -151,6 +153,12 @@ public final class BetterVillagers extends JavaPlugin {
                     day_night = line.substring(11);
                 } else if (line.startsWith("weather: ")) {
                     weather = line.substring(9);
+                } else if (line.startsWith("professions:")) {
+                   professions = Arrays.asList(line.substring(14, line.length() - 1).split(",\\s*"));
+                    //getLogger().info("Professions: " + professions.get(2));
+                } else if (line.startsWith("level:")) {
+                    level = line.substring(7);
+                    //getLogger().info("Level: " + level);
                 }
             }
 
@@ -171,7 +179,7 @@ public final class BetterVillagers extends JavaPlugin {
 
 
             // Create a new VillagerTrade object with the parsed values
-            return new VillagerTrade(material_input, material_output, json_input, json_output, amount_input, amount_output, biomes, bannedWorlds, day_night, weather);
+            return new VillagerTrade(material_input, material_output, json_input, json_output, amount_input, amount_output, biomes, bannedWorlds, day_night, weather, professions, level);
 
         } catch (IOException e) {
             getLogger().warning("Could not read file " + file.getName());
@@ -184,19 +192,20 @@ public final class BetterVillagers extends JavaPlugin {
         for( String world : worldsList) {
             for (Villager villagerNow : Bukkit.getWorld(world).getEntitiesByClass(Villager.class)) {
 
-                if (!isVillagerEmployed(villagerNow)) continue;
+                if (!isVillagerEmployed(villagerNow)) continue; // nitwit, unemployed, baby villager
 
                 for (Map.Entry<String, VillagerTrade> entry : villagerTrades.entrySet()) {
 
                     VillagerTrade villagerTrade = entry.getValue();
-
-                    // add trade logic if it meets the conditions, and detele the trade if they do not meet the criteria anymore
+                    boolean proffesion = isProffesion(villagerNow, villagerTrade);
                     boolean biome = checkBiome(villagerNow, villagerTrade.getBiomes());
                     boolean bannedWorlds = checkBannedWorlds(villagerNow, villagerTrade.getBannedWorlds());
                     boolean day_night = checkDayNight(villagerNow, villagerTrade.getDayNight());
                     boolean weather = checkWeather(villagerNow, villagerTrade.getWeather());
-
-                    if (biome && bannedWorlds && day_night && weather && checkTrade(villagerNow, villagerTrade)) {
+                    int exp = villagerNow.getVillagerLevel();
+                    int level = getVillagerLevelNow(villagerTrade.getLevel());
+                    boolean levelCheck = exp >= level;
+                    if (biome && bannedWorlds && day_night && weather && proffesion && checkTrade(villagerNow, villagerTrade) && levelCheck) {
                         addCustomTrade(villagerNow, villagerTrade);
                     } else if (!biome || !bannedWorlds || !day_night || !weather) {
                         deleteCustomTrade(villagerNow, villagerTrade);
@@ -208,6 +217,17 @@ public final class BetterVillagers extends JavaPlugin {
             }
         }
     } // baa mancatias
+
+    private static boolean isProffesion(Villager villagerNow, VillagerTrade villagerTrade) {
+        List < String > professions = villagerTrade.getProfessions();
+
+        // check if the villager has the profession
+        boolean proffesion = professions.contains(villagerNow.getProfession().name());
+        if(professions.isEmpty()) proffesion = true;
+        if( professions.contains("ALL") ) proffesion = true;
+        if( professions.contains("all") ) proffesion = true;
+        return proffesion;
+    }
 
     private void addCustomTrade(Villager villager, VillagerTrade villagerTrade) {
         List<MerchantRecipe> trades = new ArrayList<>(villager.getRecipes());
@@ -311,6 +331,17 @@ public final class BetterVillagers extends JavaPlugin {
         return true; // return true if the villager does not have the trade
     }
 
+    public int getVillagerLevelNow(String level) {
+        return switch (level) {
+            case "NOVICE" -> 1;
+            case "APPRENTICE" -> 2;
+            case "JOURNEYMAN" -> 3;
+            case "EXPERT" -> 4;
+            case "MASTER" -> 5;
+            default -> 1;
+        };
+    } // get the villager level
+
     public static boolean isVillagerEmployed(Villager villager) {
         return villager.getProfession() != Villager.Profession.NONE && villager.getProfession() != Villager.Profession.NITWIT;
     } // check if the villager is employed ( not a nitwit, no unemployed villager, no baby villager )
@@ -342,4 +373,6 @@ public final class BetterVillagers extends JavaPlugin {
         if( weather.equals("rain") && !villager.getWorld().hasStorm() && !villager.getWorld().isClearWeather() ) return true;
         return false;
     } // return true if the villager is in that 'specific weather'
+
+
 }
