@@ -210,10 +210,10 @@ public final class BetterVillagers extends JavaPlugin {
 
                     if (biome && bannedWorlds && day_night && weather && checkProfessions && checkTrade(villagerNow, villagerTrade)) {
                         addCustomTrade(villagerNow, villagerTrade);
-                    } else if (!biome || !bannedWorlds || !day_night || !weather) {
+                    } else if (!biome || !bannedWorlds || !day_night || !weather || !checkProfessions) {
                         deleteCustomTrade(villagerNow, villagerTrade);
                     }
-
+                    // checkProfessions might be a redundant check on deletion since a villager can only change profession on reset ( if the trading block is destroyed ) and it will always be the same profession ( might be good for updating )
 
                 }
 
