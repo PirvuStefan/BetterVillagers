@@ -114,6 +114,12 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                 WriteProfessions(strings[1], strings[3]);
                 sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Professions set to " + strings[3] + " for the trade " + strings[1]);
             }
+            if( strings[2].equals("level")){
+                // write to the file
+                WriteLevel(strings[1], strings[3]);
+                sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Level set to " + strings[3] + " for the trade " + strings[1]);
+                sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#A9DE18") + "The villager needs to be at least " + strings[3] + " to trade with you .");
+            }
         }
         if( strings[0].equals("create")) createCommand((Player) sender); // we do have the create command here
 
@@ -399,6 +405,30 @@ public class ReloadCommand extends BukkitCommand implements Listener {
             for (int i = 0; i < lines.size(); i++) {
                 if (lines.get(i).startsWith("professions: ")) {
                     lines.set(i, "professions: [" + professions + "]");
+                    //getLogger().info(lines.get(i));
+                }
+                getLogger().info(lines.get(i));
+            }
+            java.nio.file.Files.write(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml").toPath(), lines);
+
+
+
+        } catch (IOException e) {
+            getLogger().warning("Could not write to file " + fileName + ".yml");
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private void WriteLevel(String fileName, String level){
+
+        try (java.io.FileWriter writer = new java.io.FileWriter(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml"), true)) {
+
+            List<String> lines = java.nio.file.Files.readAllLines(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml").toPath());
+
+            for (int i = 0; i < lines.size(); i++) {
+                if (lines.get(i).startsWith("level:")) {
+                    lines.set(i, "level: " + level );
                     //getLogger().info(lines.get(i));
                 }
                 getLogger().info(lines.get(i));
