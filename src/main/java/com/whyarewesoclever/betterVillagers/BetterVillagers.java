@@ -365,11 +365,13 @@ public final class BetterVillagers extends JavaPlugin {
     } // return true if the villager is in that 'specific weather'
 
     private int getVillagerLevel(String s){
-      if (s.equals("NOVICE")) return 1;
-      if (s.equals("APPRENTICE")) return 2;
-      if (s.equals("JOURNEYMAN")) return 3;
-      if (s.equals("EXPERT")) return 4;
-      if (s.equals("MASTER")) return 5;
-      return 1;
+        return switch (s) {
+            case "NOVICE" -> 1;
+            case "APPRENTICE" -> 2;
+            case "JOURNEYMAN" -> 3;
+            case "EXPERT" -> 4;
+            case "MASTER" -> 5;
+            default -> 1;
+        };
     }
 } //da s
