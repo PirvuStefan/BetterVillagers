@@ -149,6 +149,8 @@ public class ReloadCommand extends BukkitCommand implements Listener {
             if (args.length == 4 && args[3].startsWith("c"))
                 return Collections.singletonList("clear");
         }
+//        if( args.length == 4 && args[2].equals("professions") && args[3].startsWith("a"))
+//            return Collections.singletonList("all");
         if (args.length == 3 && args[2].startsWith("d"))
             return Collections.singletonList("day_night");
 
