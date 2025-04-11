@@ -363,4 +363,13 @@ public final class BetterVillagers extends JavaPlugin {
         if( weather.equals("rain") && !villager.getWorld().hasStorm() && !villager.getWorld().isClearWeather() ) return true;
         return false;
     } // return true if the villager is in that 'specific weather'
+
+    private int getVillagerLevel(String s){
+      if (s.equals("NOVICE")) return 1;
+      if (s.equals("APPRENTICE")) return 2;
+      if (s.equals("JOURNEYMAN")) return 3;
+      if (s.equals("EXPERT")) return 4;
+      if (s.equals("MASTER")) return 5;
+      return 1;
+    }
 } //da s
