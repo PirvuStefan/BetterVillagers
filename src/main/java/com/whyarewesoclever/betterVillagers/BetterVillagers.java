@@ -128,6 +128,7 @@ public final class BetterVillagers extends JavaPlugin {
             List<String> professions = new ArrayList<>();
             String day_night = "both"; // default value
             String weather = "any"; // default value
+            String level = null;
 
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith("material_input: ")) {
@@ -154,6 +155,8 @@ public final class BetterVillagers extends JavaPlugin {
                     weather = line.substring(9);
                 } else if ( line.startsWith("professions:")){
                     professions = Arrays.asList(line.substring(14, line.length() - 1).split(",\\s*"));
+                } else if ( line.startsWith("level:")){
+                    level = line.substring(7);
                 }
             }
 
@@ -174,7 +177,7 @@ public final class BetterVillagers extends JavaPlugin {
 
 
             // Create a new VillagerTrade object with the parsed values
-            return new VillagerTrade(material_input, material_output, json_input, json_output, amount_input, amount_output, biomes, bannedWorlds, day_night, weather, professions);
+            return new VillagerTrade(material_input, material_output, json_input, json_output, amount_input, amount_output, biomes, bannedWorlds, day_night, weather, professions,level);
 
         } catch (IOException e) {
             getLogger().warning("Could not read file " + file.getName());
@@ -206,6 +209,7 @@ public final class BetterVillagers extends JavaPlugin {
                     boolean day_night = checkDayNight(villagerNow, villagerTrade.getDayNight());
                     boolean weather = checkWeather(villagerNow, villagerTrade.getWeather());
                     boolean checkProfessions = checkProfession(villagerNow, villagerTrade.getProfessions());
+                    boolean checkLevel = getVillagerLevel1(villagerTrade.getLevel()) <= villagerNow.getVillagerLevel();
 
 
                     if (biome && bannedWorlds && day_night && weather && checkProfessions && checkTrade(villagerNow, villagerTrade)) {
@@ -364,7 +368,7 @@ public final class BetterVillagers extends JavaPlugin {
         return false;
     } // return true if the villager is in that 'specific weather'
 
-    private int getVillagerLevel(String s){
+    private int getVillagerLevel1(String s){
         return switch (s) {
             case "NOVICE" -> 1;
             case "APPRENTICE" -> 2;
