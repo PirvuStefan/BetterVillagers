@@ -116,6 +116,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
             }
             if( strings[2].equals("level")){
                 // write to the file
+                strings[3] = reglateLevel(strings[3]);
                 WriteLevel(strings[1], strings[3]);
                 sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Level set to " + strings[3] + " for the trade " + strings[1]);
                 sender.sendMessage(net.md_5.bungee.api.ChatColor.of("#A9DE18") + "The villager needs to be at least " + strings[3] + " to trade with you .");
@@ -443,6 +444,17 @@ public class ReloadCommand extends BukkitCommand implements Listener {
         }
 
     }
+    
+    private String reglateLevel(String level){
+        return switch (level) {
+            case "2" -> "APPRENTICE";
+            case "3" -> "JOURNEYMAN";
+            case "4" -> "MASTER";
+            case "5" -> "EXPERT";
+            default -> level;
+        };
+
+    } 
 
 
 
