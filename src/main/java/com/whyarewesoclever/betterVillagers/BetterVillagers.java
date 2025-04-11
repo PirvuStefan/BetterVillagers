@@ -197,9 +197,7 @@ public final class BetterVillagers extends JavaPlugin {
                     VillagerTrade villagerTrade = entry.getValue();
                     List < String > professions = villagerTrade.getProfessions();
 
-                    for (String profession : professions) {
-                        getLogger().info("Profession: " + profession);
-                    }
+
 
 
 
@@ -210,15 +208,17 @@ public final class BetterVillagers extends JavaPlugin {
                     boolean weather = checkWeather(villagerNow, villagerTrade.getWeather());
                     boolean checkProfessions = checkProfession(villagerNow, villagerTrade.getProfessions());
                     boolean checkLevel = getVillagerLevel1(villagerTrade.getLevel()) <= villagerNow.getVillagerLevel();
+                    getLogger().info("checkLevel: " + getVillagerLevel1(villagerTrade.getLevel()) + " <= " + villagerNow.getVillagerLevel());
+                    getLogger().info("checkLevel: " + checkLevel);
 
 
-                    if (biome && bannedWorlds && day_night && weather && checkProfessions && checkTrade(villagerNow, villagerTrade)) {
+                    if (biome && bannedWorlds && day_night && weather && checkProfessions && checkLevel && checkTrade(villagerNow, villagerTrade)) {
                         addCustomTrade(villagerNow, villagerTrade);
                     } else if (!biome || !bannedWorlds || !day_night || !weather || !checkProfessions) {
                         deleteCustomTrade(villagerNow, villagerTrade);
                     }
                     // checkProfessions might be a redundant check on deletion since a villager can only change profession on reset ( if the trading block is destroyed ) and it will always be the same profession ( might be good for updating )
-
+                    // checkLevel might be a redundant check on deletion since a villager can only change level on reset ( if the trading block is destroyed ) and it will always be at that minimum level ( once a master always a master )
                 }
 
             }
@@ -252,7 +252,7 @@ public final class BetterVillagers extends JavaPlugin {
 
         trades.add(recipe);
         villager.setRecipes(trades);
-        getLogger().info("Added custom trade to villager " + villager.getEntityId());
+        //getLogger().info("Added custom trade to villager " + villager.getEntityId());
     }
 
     private void deleteCustomTrade(Villager villager, VillagerTrade villagerTrade){
