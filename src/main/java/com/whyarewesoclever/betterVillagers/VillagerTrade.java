@@ -1,5 +1,6 @@
 package com.whyarewesoclever.betterVillagers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class VillagerTrade {
@@ -7,6 +8,7 @@ public class VillagerTrade {
     int amount_input, amount_output;
     public List< String > biomes;
     public List < String > bannedWorlds;
+    public List < String > professions = new ArrayList<>();
     String day_night = "both"; // default value
     // modifiers for it to be day, night, or both
     String weather = "any"; // default value
@@ -18,7 +20,7 @@ public class VillagerTrade {
         this.json_input = json1;
         this.json_output = json2;
     }
-    public VillagerTrade(String material1, String material2, String json1,String json2, int number1, int number2, List<String> biomes, List<String> bannedWorlds, String day_night, String weather){
+    public VillagerTrade(String material1, String material2, String json1,String json2, int number1, int number2, List<String> biomes, List<String> bannedWorlds, String day_night, String weather, List<String> professions){
         this.material_input = material1;
         this.material_output = material2;
         this.json_input = json1;
@@ -29,6 +31,7 @@ public class VillagerTrade {
         this.bannedWorlds = bannedWorlds;
         this.day_night = day_night;
         this.weather = weather;
+        this.professions = professions;
     }
     public VillagerTrade(int number1, int number2){
         this.amount_input = number1;
@@ -81,5 +84,8 @@ public class VillagerTrade {
     public int getAmountOutput() {
         return amount_output;
     }//da
+    public List<String> getProfessions() {
+        return professions;
+    }
 
 } // write once, debug everywhere

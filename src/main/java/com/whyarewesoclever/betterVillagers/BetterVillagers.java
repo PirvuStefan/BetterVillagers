@@ -125,6 +125,7 @@ public final class BetterVillagers extends JavaPlugin {
             int amount_output = 0;
             List<String> biomes = new ArrayList<>();
             List<String> bannedWorlds = new ArrayList<>();
+            List<String> professions = new ArrayList<>();
             String day_night = "both"; // default value
             String weather = "any"; // default value
 
@@ -151,6 +152,8 @@ public final class BetterVillagers extends JavaPlugin {
                     day_night = line.substring(11);
                 } else if (line.startsWith("weather: ")) {
                     weather = line.substring(9);
+                } else if ( line.startsWith("professions:")){
+                    professions = Arrays.asList(line.substring(14, line.length() - 1).split(",\\s*"));
                 }
             }
 
@@ -171,7 +174,7 @@ public final class BetterVillagers extends JavaPlugin {
 
 
             // Create a new VillagerTrade object with the parsed values
-            return new VillagerTrade(material_input, material_output, json_input, json_output, amount_input, amount_output, biomes, bannedWorlds, day_night, weather);
+            return new VillagerTrade(material_input, material_output, json_input, json_output, amount_input, amount_output, biomes, bannedWorlds, day_night, weather, professions);
 
         } catch (IOException e) {
             getLogger().warning("Could not read file " + file.getName());
@@ -189,14 +192,23 @@ public final class BetterVillagers extends JavaPlugin {
                 for (Map.Entry<String, VillagerTrade> entry : villagerTrades.entrySet()) {
 
                     VillagerTrade villagerTrade = entry.getValue();
+                    List < String > professions = villagerTrade.getProfessions();
+
+                    for (String profession : professions) {
+                        getLogger().info("Profession: " + profession);
+                    }
+
+
 
                     // add trade logic if it meets the conditions, and detele the trade if they do not meet the criteria anymore
                     boolean biome = checkBiome(villagerNow, villagerTrade.getBiomes());
                     boolean bannedWorlds = checkBannedWorlds(villagerNow, villagerTrade.getBannedWorlds());
                     boolean day_night = checkDayNight(villagerNow, villagerTrade.getDayNight());
                     boolean weather = checkWeather(villagerNow, villagerTrade.getWeather());
+                    boolean checkProfessions = checkProfession(villagerNow, villagerTrade.getProfessions());
 
-                    if (biome && bannedWorlds && day_night && weather && checkTrade(villagerNow, villagerTrade)) {
+
+                    if (biome && bannedWorlds && day_night && weather && checkProfessions && checkTrade(villagerNow, villagerTrade)) {
                         addCustomTrade(villagerNow, villagerTrade);
                     } else if (!biome || !bannedWorlds || !day_night || !weather) {
                         deleteCustomTrade(villagerNow, villagerTrade);
@@ -207,6 +219,15 @@ public final class BetterVillagers extends JavaPlugin {
 
             }
         }
+    }
+
+    private boolean checkProfession(Villager villagerNow, List<String> professions) {
+        if (professions.isEmpty()) return true;
+        if( professions.contains("ALL") ) return true;
+        if ( professions.contains("all") ) return true;
+        if( professions.contains("none") ) return false;
+        if( professions.contains("NONE") ) return false;
+        return professions.contains(villagerNow.getProfession().name());
     }
 
     private void addCustomTrade(Villager villager, VillagerTrade villagerTrade) {
@@ -231,7 +252,7 @@ public final class BetterVillagers extends JavaPlugin {
     }
 
     private void deleteCustomTrade(Villager villager, VillagerTrade villagerTrade){
-        getLogger().info("Deleting custom trade from villager " + villager.getEntityId());
+        //getLogger().info("Deleting custom trade from villager " + villager.getEntityId());
         List<MerchantRecipe> trades = new ArrayList<>(villager.getRecipes());
         char found = 'a';
         boolean identical = false;
