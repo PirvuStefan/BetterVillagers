@@ -208,8 +208,7 @@ public final class BetterVillagers extends JavaPlugin {
                     boolean weather = checkWeather(villagerNow, villagerTrade.getWeather());
                     boolean checkProfessions = checkProfession(villagerNow, villagerTrade.getProfessions());
                     boolean checkLevel = getVillagerLevel1(villagerTrade.getLevel()) <= villagerNow.getVillagerLevel();
-                    getLogger().info("checkLevel: " + getVillagerLevel1(villagerTrade.getLevel()) + " <= " + villagerNow.getVillagerLevel());
-                    getLogger().info("checkLevel: " + checkLevel);
+
 
 
                     if (biome && bannedWorlds && day_night && weather && checkProfessions && checkLevel && checkTrade(villagerNow, villagerTrade)) {

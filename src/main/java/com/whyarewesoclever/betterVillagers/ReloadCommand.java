@@ -361,7 +361,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                     lines.set(i, "day_night: " + day_night );
                     //getLogger().info(lines.get(i));
                 }
-                getLogger().info(lines.get(i));
+
             }
             java.nio.file.Files.write(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml").toPath(), lines);
 
@@ -384,7 +384,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                     lines.set(i, "biomes: [" + biomes + "]");
                     //getLogger().info(lines.get(i));
                 }
-                getLogger().info(lines.get(i));
+
             }
             java.nio.file.Files.write(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml").toPath(), lines);
 
@@ -408,7 +408,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                     lines.set(i, "professions: [" + professions + "]");
                     //getLogger().info(lines.get(i));
                 }
-                getLogger().info(lines.get(i));
+
             }
             java.nio.file.Files.write(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml").toPath(), lines);
 
@@ -432,7 +432,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                     lines.set(i, "level: " + level );
                     //getLogger().info(lines.get(i));
                 }
-                getLogger().info(lines.get(i));
+
             }
             java.nio.file.Files.write(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml").toPath(), lines);
 
