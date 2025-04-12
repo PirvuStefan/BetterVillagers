@@ -59,6 +59,11 @@ public final class BetterVillagers extends JavaPlugin {
                 getLogger().info("Failed to create folder 'drops'.");
             }
         }
+        if( !getConfig().getBoolean("Enable") ) {
+            getLogger().info("BetterVillagers is disabled in the config file! The plugin will not register new trades for the villagers. Enable it in the config file to use the plugin.");
+            getLogger().info("Or do as you wish, we are not your parents.");
+            //return; - maybe return ?
+        }
 
         initialiseKeys();
         initialiseMap();
