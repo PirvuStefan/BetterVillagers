@@ -43,6 +43,8 @@ public final class BetterVillagers extends JavaPlugin {
             e.printStackTrace();
         }
 
+        Ascii();
+
         File folder = getDataFolder();
         if (!folder.exists()) {
             if (folder.mkdir()) {
@@ -381,5 +383,13 @@ public final class BetterVillagers extends JavaPlugin {
             case "MASTER" -> 5;
             default -> 1;
         };
+    }
+
+    private void Ascii(){
+    getLogger().info("____  _____ _____ _____ _____ ____  _     _  _     _     ____  _____ _____ ____  ____");
+    getLogger().info("/  __\\/  __//__ __Y__ __Y  __//  __\\/ \\ |\\/ \\/ \\   / \\   /  _ \\/  __//  __//  __\\/ ___\\");
+    getLogger().info("| | //|  \\    / \\   / \\ |  \\  |  \\/|| | //| || |   | |   | / \\|| |  _|  \\  |  \\/||    \\");
+    getLogger().info("| |_\\\\|  /_   | |   | | |  /_ |    /| \\// | || |_\\/\\| |_\\/\\| |-||| |_//|  /_ |    /\\___ |");
+    getLogger().info("\\____/\\____\\  \\_/   \\_/ \\____\\\\_/\\_\\\\__/  \\_/\\____/\\____/\\_/ \\|\\____\\\\____\\\\_/\\_\\\\____/");
     }
 } //da s
