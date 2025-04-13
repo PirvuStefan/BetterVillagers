@@ -18,6 +18,8 @@ Worlds:
 # /bettervillagers set <name> day_night day - Set the time to day for the trade <name> ( for the time modifiers you can set the time to day, night, both )
 # /bettervillagers set <name> biomes <biome1,biome2,biome3> - Set the biome for the trade <name> ( set the biomes you want the trade to work in, example: /bettervillagers set <name> biomes RIVER,PLAINS,BIRCH_FOREST       ; check the list of biomes in the wiki : https://hub.spigotmc.org/javadocs/spigot/org/bukkit/block/Biome.html )
 # By default, the trade will work in all biomes, no matter the weather or time .
+# Placeholders:        all          -  all biomes/professions
+#                      none         -  no banned worlds
 #
 # PERMISSIONS
 # bettervillagers.commands - Permission to use the plugin commands
