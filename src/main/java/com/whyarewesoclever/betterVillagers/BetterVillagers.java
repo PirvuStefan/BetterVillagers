@@ -6,6 +6,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandMap;
 import org.bukkit.entity.Villager;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MerchantRecipe;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -392,4 +395,21 @@ public final class BetterVillagers extends JavaPlugin {
     getLogger().info("| |_\\\\|  /_   | |   | | |  /_ |    /| \\// | || |_\\/\\| |_\\/\\| |-||| |_//|  /_ |    /\\___ |");
     getLogger().info("\\____/\\____\\  \\_/   \\_/ \\____\\\\_/\\_\\\\__/  \\_/\\____/\\____/\\_/ \\|\\____\\\\____\\\\_/\\_\\\\____/");
     }
+
+    public class WeatherListener implements Listener {
+
+        @EventHandler
+        public void onWeatherChange(WeatherChangeEvent event) {
+            if (event.toWeatherState()) {
+                // The weather is changing to rain or storm
+
+                System.out.println("The weather is changing to rain or storm.");
+            } else {
+                // The weather is changing to clear
+                System.out.println("The weather is changing to clear.");
+            }
+        }
+    }
+
+
 } //da s s
