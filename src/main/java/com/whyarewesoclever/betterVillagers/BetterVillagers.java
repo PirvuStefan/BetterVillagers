@@ -373,7 +373,7 @@ public final class BetterVillagers extends JavaPlugin {
         if( weather.equals("any") ) return true;
         if( weather.equals("clear") && villager.getWorld().isClearWeather() ) return true;
         if( weather.equals("thunder") && villager.getWorld().hasStorm() ) return true;
-        if( weather.equals("rain") && !villager.getWorld().hasStorm() && !villager.getWorld().isClearWeather() ) return true;
+        if( weather.equals("rain") && villager.getWorld().hasStorm() ) return true;
         return false;
     } // return true if the villager is in that 'specific weather'
 

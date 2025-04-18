@@ -151,8 +151,6 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                 return Collections.singletonList("any");
             if (args.length == 4 && args[3].startsWith("r"))
                 return Collections.singletonList("rain");
-            if (args.length == 4 && args[3].startsWith("t"))
-                return Collections.singletonList("thunder"); // can't do switch case here
             if (args.length == 4 && args[3].startsWith("c"))
                 return Collections.singletonList("clear");
         }
