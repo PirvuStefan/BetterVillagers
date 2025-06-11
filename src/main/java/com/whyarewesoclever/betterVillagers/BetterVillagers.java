@@ -205,7 +205,7 @@ public final class BetterVillagers extends JavaPlugin {
                 for (Map.Entry<String, VillagerTrade> entry : villagerTrades.entrySet()) {
 
                     VillagerTrade villagerTrade = entry.getValue();
-                    List < String > professions = villagerTrade.getProfessions();
+
 
 
 
