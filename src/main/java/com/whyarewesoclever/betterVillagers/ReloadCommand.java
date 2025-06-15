@@ -215,7 +215,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
         if( inventory.getItem(i) == null || inventory.getItem(i).getType() == Material.AIR)
             flag2 = false;
         i = 34;
-        if( flag1 == flag2 && !flag1) // if both slots are filled, then we can create the trade
+        if( !(flag1 || flag2) ) // if neither slot 28 nor 29 is filled, the trade cannot be created
             return false;
         return inventory.getItem(i) != null && inventory.getItem(i).getType() != Material.AIR;
     }
