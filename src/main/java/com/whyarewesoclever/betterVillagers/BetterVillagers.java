@@ -188,7 +188,7 @@ public final class BetterVillagers extends JavaPlugin {
                 vil.setOptional(material_optional ,json_optional,amount_optional);
 
 
-            return new VillagerTrade(material_input, material_output, json_input, json_output, amount_input, amount_output, biomes, bannedWorlds, day_night, weather, professions,level);
+            return vil;
 
         } catch (IOException e) {
             getLogger().warning("Could not read file " + file.getName());
