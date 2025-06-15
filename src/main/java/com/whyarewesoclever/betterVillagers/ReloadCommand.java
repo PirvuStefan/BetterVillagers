@@ -191,6 +191,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
 
         item = new ItemStack(Material.AIR);
         inventory.setItem(28, item);
+        inventory.setItem(29, item); // for the second item, if the player wants to trade two items with the villager ( a book and a diamond for a enchanted book )
         inventory.setItem(34, item);
         item = new ItemStack(Material.EXPERIENCE_BOTTLE);
         NBTItem nbtItem2 = new NBTItem(item);
