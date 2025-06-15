@@ -129,10 +129,13 @@ public final class BetterVillagers extends JavaPlugin {
             String line;
             String material_input = null;
             String material_output = null;
+            String material_optional = "none"; // default value
             String json_input = null;
             String json_output = null;
+            String json_optional = "{}"; // default value
             int amount_input = 0;
             int amount_output = 0;
+            int amount_optional = 0; // default value
             List<String> biomes = new ArrayList<>();
             List<String> bannedWorlds = new ArrayList<>();
             List<String> professions = new ArrayList<>();
@@ -167,26 +170,24 @@ public final class BetterVillagers extends JavaPlugin {
                     professions = Arrays.asList(line.substring(14, line.length() - 1).split(",\\s*"));
                 } else if ( line.startsWith("level:")){
                     level = line.substring(7);
+                } else if (line.startsWith("material_optional: ")) {
+                    material_optional = line.substring(18);
+                } else if (line.startsWith("json_optional: ")) {
+                    json_optional = line.substring(15);
+                } else if (line.startsWith("amount_optional: ")) {
+                    amount_optional = Integer.parseInt(line.substring(17));
                 }
             }
 
-//            getLogger().info("Parsed file: " + file.getName());
-//            getLogger().info("material_input: " + material_input);
-//            getLogger().info("material_output: " + material_output);
-//            getLogger().info("json_input: " + json_input);
-//            getLogger().info("json_output: " + json_output);
-//            getLogger().info("amount_input: " + amount_input);
-//            getLogger().info("amount_output: " + amount_output);
-//            getLogger().info("biomes: " + biomes);
-//            getLogger().info("biomes is empty: " + biomes.size());
-//            getLogger().info("biomes first element: " + (biomes.isEmpty() ? "none" : biomes.get(0)));
-//            getLogger().info("banned_worlds: " + bannedWorlds);
-//            getLogger().info("banned_worlds is empty: " + bannedWorlds.size());
-//            getLogger().info("day_night: " + day_night);
-//            getLogger().info("weather: " + weather);
 
 
             // Create a new VillagerTrade object with the parsed values
+            VillagerTrade vil = new VillagerTrade(material_input, material_output, json_input, json_output, amount_input, amount_output, biomes, bannedWorlds, day_night, weather, professions, level);
+            // If optional material and json are provided, set them
+            if( material_optional.equals("none") )
+                vil.setOptional(material_optional ,json_optional,amount_optional);
+
+
             return new VillagerTrade(material_input, material_output, json_input, json_output, amount_input, amount_output, biomes, bannedWorlds, day_night, weather, professions,level);
 
         } catch (IOException e) {

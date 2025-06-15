@@ -328,15 +328,17 @@ public class ReloadCommand extends BukkitCommand implements Listener {
         try (java.io.FileWriter writer = new java.io.FileWriter(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml"))) {
             writer.write("material_input: " + mat1 + "\n");
             writer.write("amount_input: " + amount1 + "\n");
+            writer.write("json_input: " + json1 + "\n");
             if( amountOptional > 0 ) {
                 writer.write("material_input_optional: " + jsonOptional + "\n");
                 writer.write("amount_input_optional: " + amountOptional + "\n");
+                writer.write("json_input_optional: " + jsonOptional + "\n");
             }
             else{
                 writer.write("material_input_optional: none\n");
                 writer.write("amount_input_optional: 0\n");
+                writer.write("json_input_optional: {}\n");
             }
-            writer.write("json_input: " + json1 + "\n");
             writer.write("material_output: " + mat2 + "\n");
             writer.write("amount_output: " + amount2 + "\n");
             writer.write("json_output: " + json2 + "\n");

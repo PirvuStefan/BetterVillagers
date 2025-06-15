@@ -58,7 +58,7 @@ public class VillagerTrade {
         this.day_night = example;
         this.weather = example2;
     }
-    public VillagerTrade(String material,String json, int n){
+    public VillagerTrade(String material, String json, int n){
         this.materialOptioanal = material;
         this.jsonOptional = json;
         this.amount_optional = n;
@@ -102,4 +102,9 @@ public class VillagerTrade {
         return level;
     }
 
+    public void setOptional(String materialOptional, String jsonOptional, int amount_optional) {
+        this.materialOptioanal = materialOptional;
+        this.jsonOptional = jsonOptional;
+        this.amount_optional = amount_optional;
+    }
 } // write once, debug everywhere
