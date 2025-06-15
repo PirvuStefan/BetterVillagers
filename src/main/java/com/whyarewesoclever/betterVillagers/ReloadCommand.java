@@ -273,10 +273,14 @@ public class ReloadCommand extends BukkitCommand implements Listener {
 
                     NBTItem nbtItem1 = new NBTItem(item1);
                     NBTItem nbtItem2 = new NBTItem(item2);
+                    NBTItem nbtItemOptional = new NBTItem(iitemoptional);
                     String json1 = nbtItem1.toString();
                     String json2 = nbtItem2.toString();
+                    String jsonOptional ;
+                    jsonOptional = (count == 2) ? nbtItemOptional.toString() : "{}"; // if we have two items, we will use the second item, otherwise we will use an empty json object
                     getLogger().info(json1);
                     getLogger().info(json2);
+                    getLogger().info(jsonOptional);
                     // save the json to the config file
                     player.closeInventory();
                     HandlerList.unregisterAll(this);
@@ -285,13 +289,15 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                     name_id = generateUniqueId(name_id);
                     int amount1 = item1.getAmount();
                     int amount2 = item2.getAmount();
+                    int amountOptional ;
+                    amountOptional = (count == 2) ? iitemoptional.getAmount() : 0;
                     try {
                         java.nio.file.Files.createFile(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + name_id + ".yml").toPath());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
 
-                    WriteToFile(name_id, item1.getType().name(), item2.getType().name(), json1, json2, amount1, amount2);
+                    WriteToFile(name_id, item1.getType().name(), item2.getType().name(), json1, json2, amount1, amount2, jsonOptional,amountOptional);
                 }
 
 
@@ -317,11 +323,19 @@ public class ReloadCommand extends BukkitCommand implements Listener {
         }
     }
 
-    private void WriteToFile(String fileName,String mat1, String mat2, String json1, String json2, int amount1, int amount2) {
+    private void WriteToFile(String fileName,String mat1, String mat2, String json1, String json2, int amount1, int amount2, String jsonOptional, int amountOptional) {
         // write the json to the file
         try (java.io.FileWriter writer = new java.io.FileWriter(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml"))) {
             writer.write("material_input: " + mat1 + "\n");
             writer.write("amount_input: " + amount1 + "\n");
+            if( amountOptional > 0 ) {
+                writer.write("material_input_optional: " + jsonOptional + "\n");
+                writer.write("amount_input_optional: " + amountOptional + "\n");
+            }
+            else{
+                writer.write("material_input_optional: none\n");
+                writer.write("amount_input_optional: 0\n");
+            }
             writer.write("json_input: " + json1 + "\n");
             writer.write("material_output: " + mat2 + "\n");
             writer.write("amount_output: " + amount2 + "\n");

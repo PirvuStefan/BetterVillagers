@@ -14,6 +14,10 @@ public class VillagerTrade {
     String weather = "any"; // default value
     // modifiers for it to be clear, rain, thunder or any
     String level = "NOVICE" ;
+    int amount_optional = 0; // default value, no optional item
+    String materialOptioanl = "none";
+    String jsonOptional = "{}";
+
 
     public VillagerTrade(String material1, String material2, String json1,String json2){
         this.material_input = material1;
