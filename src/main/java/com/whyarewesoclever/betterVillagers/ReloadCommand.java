@@ -207,9 +207,16 @@ public class ReloadCommand extends BukkitCommand implements Listener {
 
     boolean checkInventoryComplete(Inventory inventory){
         int i =  28;
+        boolean flag1 = true;
+        boolean flag2 = true;
         if( inventory.getItem(i) == null || inventory.getItem(i).getType() == Material.AIR)
-            return false;
+            flag1 = false;
+        i = 29;
+        if( inventory.getItem(i) == null || inventory.getItem(i).getType() == Material.AIR)
+            flag2 = false;
         i = 34;
+        if( flag1 == flag2 && !flag1) // if both slots are filled, then we can create the trade
+            return false;
         return inventory.getItem(i) != null && inventory.getItem(i).getType() != Material.AIR;
     }
 
@@ -252,10 +259,18 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                     player.sendMessage(net.md_5.bungee.api.ChatColor.of("#00FF00") + "[BetterVillagers] : " + net.md_5.bungee.api.ChatColor.of("#A9DE18") + "Trade created successfully .");
                     player.playSound(player.getLocation(), org.bukkit.Sound.BLOCK_AMETHYST_BLOCK_BREAK, 10, 1);
                     // here we should create the trade file and save it to the plugin's directory
+                    int count = 0;
 
                     // get the item from index 28 and 34
                     ItemStack item1 = inventory.getItem(28);
                     ItemStack item2 = inventory.getItem(34);
+                    ItemStack iitemoptional = inventory.getItem(29); // this is the second item, if the player wants to trade two items with the villager ( a book and a diamond for a enchanted book )
+                    if( item1 == null || item1.getType() == Material.AIR) item1 = iitemoptional; // this is to hande if the items is put in either of the two slots, but we only have one item to trade
+                    if( item1 != null && item1.getType() != Material.AIR )
+                        count++;
+                    if( iitemoptional != null && iitemoptional.getType() != Material.AIR )
+                        count++;
+
                     NBTItem nbtItem1 = new NBTItem(item1);
                     NBTItem nbtItem2 = new NBTItem(item2);
                     String json1 = nbtItem1.toString();
