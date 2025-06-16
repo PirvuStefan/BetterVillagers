@@ -247,18 +247,31 @@ public final class BetterVillagers extends JavaPlugin {
     private void addCustomTrade(Villager villager, VillagerTrade villagerTrade) {
         List<MerchantRecipe> trades = new ArrayList<>(villager.getRecipes());
 
+        boolean doubleTrade = false;
+
         // Example: Add a custom trade that only appears at night
         ItemStack result = new ItemStack(Material.valueOf(villagerTrade.getMaterialOutput()), villagerTrade.getAmountOutput());
         ItemStack ingredient1 = new ItemStack(Material.valueOf(villagerTrade.getMaterialInput()), villagerTrade.getAmountInput());
+        if( villagerTrade.getAmountOptional() > 0)
+            doubleTrade = true; // if there is an optional ingredient, we will add it to the trade
+        ItemStack ingridient2;
+        if ( doubleTrade)
+            ingridient2 = new ItemStack(Material.valueOf(villagerTrade.getMaterialOptional()), villagerTrade.getAmountInput()); // optional ingredient
+        else
+            ingridient2 = ingredient1; // no optional ingredient
         NBTItem nbtItem1 = new NBTItem(result);
         NBTItem nbtItem2 = new NBTItem(ingredient1);
+        NBTItem nbtItemOptional = new NBTItem(ingridient2);
         nbtItem1.mergeCompound(NBT.parseNBT(villagerTrade.getJsonOutput()));
         nbtItem2.mergeCompound(NBT.parseNBT(villagerTrade.getJsonInput()));
+        nbtItemOptional.mergeCompound(NBT.parseNBT(villagerTrade.getJsonOptional()));
         result = nbtItem1.getItem();
         ingredient1 = nbtItem2.getItem();
+        ingridient2 = nbtItemOptional.getItem();
 
         MerchantRecipe recipe = new MerchantRecipe(result, 0, 10, true);
         recipe.addIngredient(ingredient1);
+        if(doubleTrade) recipe.addIngredient(ingridient2);
 
         trades.add(recipe);
         villager.setRecipes(trades);

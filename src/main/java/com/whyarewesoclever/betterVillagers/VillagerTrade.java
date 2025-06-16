@@ -107,4 +107,13 @@ public class VillagerTrade {
         this.jsonOptional = jsonOptional;
         this.amount_optional = amount_optional;
     }
+    public String getMaterialOptional() {
+        return materialOptioanal;
+    }
+    public String getJsonOptional() {
+        return jsonOptional;
+    }
+    public int getAmountOptional() {
+        return amount_optional;
+    }
 } // write once, debug everywhere
