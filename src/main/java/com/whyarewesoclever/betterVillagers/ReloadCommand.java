@@ -299,7 +299,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                         e.printStackTrace();
                     }
 
-                    WriteToFile(name_id, item1.getType().name(), item2.getType().name(), json1, json2, amount1, amount2, jsonOptional,amountOptional);
+                    WriteToFile(name_id, item1.getType().name(), item2.getType().name(), json1, json2, amount1, amount2, jsonOptional,amountOptional, iitemoptional.getType().name() );
                 }
 
 
@@ -325,14 +325,14 @@ public class ReloadCommand extends BukkitCommand implements Listener {
         }
     }
 
-    private void WriteToFile(String fileName,String mat1, String mat2, String json1, String json2, int amount1, int amount2, String jsonOptional, int amountOptional) {
+    private void WriteToFile(String fileName,String mat1, String mat2, String json1, String json2, int amount1, int amount2, String jsonOptional, int amountOptional, String matOptional) {
         // write the json to the file
         try (java.io.FileWriter writer = new java.io.FileWriter(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml"))) {
             writer.write("material_input: " + mat1 + "\n");
             writer.write("amount_input: " + amount1 + "\n");
             writer.write("json_input: " + json1 + "\n");
             if( amountOptional > 0 ) {
-                writer.write("material_input_optional: " + jsonOptional + "\n");
+                writer.write("material_input_optional: " + matOptional + "\n");
                 writer.write("amount_input_optional: " + amountOptional + "\n");
                 writer.write("json_input_optional: " + jsonOptional + "\n");
             }
