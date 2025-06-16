@@ -233,7 +233,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
         getLogger().info(view.getTitle());
         if( !block) return;
 
-        if (event.getInventory().getHolder() instanceof Player && block) {
+        if (event.getInventory().getHolder() instanceof Player) {
 
             NBTItem nbtItem_now = new NBTItem(event.getCurrentItem());
             String json_now = nbtItem_now.toString();
@@ -265,11 +265,13 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                     ItemStack item1 = inventory.getItem(28);
                     ItemStack item2 = inventory.getItem(34);
                     ItemStack iitemoptional = inventory.getItem(29); // this is the second item, if the player wants to trade two items with the villager ( a book and a diamond for a enchanted book )
-                    if( item1 == null || item1.getType() == Material.AIR) item1 = iitemoptional; // this is to hande if the items is put in either of the two slots, but we only have one item to trade
+
                     if( item1 != null && item1.getType() != Material.AIR )
                         count++;
                     if( iitemoptional != null && iitemoptional.getType() != Material.AIR )
                         count++;
+                    if( item1 == null || item1.getType() == Material.AIR) item1 = iitemoptional; // this is to hande if the items is put in either of the two slots, but we only have one item to trade
+                    if( iitemoptional == null || iitemoptional.getType() == Material.AIR) iitemoptional = item1; // this is to hande if the items is put in either of the two slots, but we only have one item to trade
 
                     NBTItem nbtItem1 = new NBTItem(item1);
                     NBTItem nbtItem2 = new NBTItem(item2);
