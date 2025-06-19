@@ -170,12 +170,12 @@ public final class BetterVillagers extends JavaPlugin {
                     professions = Arrays.asList(line.substring(14, line.length() - 1).split(",\\s*"));
                 } else if ( line.startsWith("level:")){
                     level = line.substring(7);
-                } else if (line.startsWith("material_optional: ")) {
-                    material_optional = line.substring(18);
-                } else if (line.startsWith("json_optional: ")) {
-                    json_optional = line.substring(15);
-                } else if (line.startsWith("amount_optional: ")) {
-                    amount_optional = Integer.parseInt(line.substring(17));
+                } else if (line.startsWith("material_input_optional: ")) {
+                    material_optional = line.substring(24);
+                } else if (line.startsWith("json_input_optional: ")) {
+                    json_optional = line.substring(21);
+                } else if (line.startsWith("amount_input_optional: ")) {
+                    amount_optional = Integer.parseInt(line.substring(23));
                 }
             }
 
@@ -184,7 +184,7 @@ public final class BetterVillagers extends JavaPlugin {
             // Create a new VillagerTrade object with the parsed values
             VillagerTrade vil = new VillagerTrade(material_input, material_output, json_input, json_output, amount_input, amount_output, biomes, bannedWorlds, day_night, weather, professions, level);
             // If optional material and json are provided, set them
-            if( material_optional.equals("none") )
+            if( !material_optional.equals("none") )
                 vil.setOptional(material_optional ,json_optional,amount_optional);
 
 
@@ -255,7 +255,7 @@ public final class BetterVillagers extends JavaPlugin {
         if( villagerTrade.getAmountOptional() > 0)
             doubleTrade = true; // if there is an optional ingredient, we will add it to the trade
         ItemStack ingridient2;
-        if ( doubleTrade)
+        if ( doubleTrade )
             ingridient2 = new ItemStack(Material.valueOf(villagerTrade.getMaterialOptional()), villagerTrade.getAmountInput()); // optional ingredient
         else
             ingridient2 = ingredient1; // no optional ingredient
@@ -271,6 +271,9 @@ public final class BetterVillagers extends JavaPlugin {
 
         MerchantRecipe recipe = new MerchantRecipe(result, 0, 10, true);
         recipe.addIngredient(ingredient1);
+        getLogger().info(ingredient1.toString());
+        getLogger().info(ingridient2.toString());
+
         if(doubleTrade) recipe.addIngredient(ingridient2);
 
         trades.add(recipe);
