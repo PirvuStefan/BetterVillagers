@@ -184,8 +184,13 @@ public final class BetterVillagers extends JavaPlugin {
             // Create a new VillagerTrade object with the parsed values
             VillagerTrade vil = new VillagerTrade(material_input, material_output, json_input, json_output, amount_input, amount_output, biomes, bannedWorlds, day_night, weather, professions, level);
             // If optional material and json are provided, set them
-            if( !material_optional.equals("none") )
-                vil.setOptional(material_optional ,json_optional,amount_optional);
+
+                getLogger().info(material_optional + " " + json_optional + " " + amount_optional);
+                vil.setOptional(material_optional, json_optional, amount_optional);
+                getLogger().info(material_input + " " + json_input + " " +  amount_input);
+                getLogger().info("------");
+                getLogger().info(json_input);
+                getLogger().info(String.valueOf(amount_input));
 
 
             return vil;
@@ -256,7 +261,7 @@ public final class BetterVillagers extends JavaPlugin {
             doubleTrade = true; // if there is an optional ingredient, we will add it to the trade
         ItemStack ingridient2;
         if ( doubleTrade )
-            ingridient2 = new ItemStack(Material.valueOf(villagerTrade.getMaterialOptional()), villagerTrade.getAmountInput()); // optional ingredient
+            ingridient2 = new ItemStack(Material.valueOf(villagerTrade.getMaterialOptional()), villagerTrade.getAmountOptional()); // optional ingredient
         else
             ingridient2 = ingredient1; // no optional ingredient
         NBTItem nbtItem1 = new NBTItem(result);
