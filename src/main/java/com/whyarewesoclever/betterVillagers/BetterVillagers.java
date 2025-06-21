@@ -331,51 +331,50 @@ public final class BetterVillagers extends JavaPlugin {
         villager.setRecipes(trades);
     }
 
-    private boolean checkTrade(Villager villager, VillagerTrade villagerTrade){
-        // check if the villager already has the trade, to avoid duplicates
-        boolean identical = false ;
+    private boolean checkTrade(Villager villager, VillagerTrade villagerTrade) {
+        // Returns true if the villager does NOT have the trade, false if it already exists
         boolean dublu = villagerTrade.amount_optional > 0;
         for (MerchantRecipe recipe : villager.getRecipes()) {
-            // we need to check if the villager has the trade ( identical )
-            // check if the villager has the trade, return false if it does
-            identical = isIdentical(villagerTrade, identical, dublu, recipe);
-            if( identical && villagerTrade.getJsonInput().equals("{}") && villagerTrade.getJsonOutput().equals("{}") && ( !dublu || villagerTrade.getJsonInput().equals("{}") ) ) {
-                // getLogger().info("mancatiast");
-                return false; // return false if the villager has the trade
+            // Compare output
+            if (!recipe.getResult().getType().name().equals(villagerTrade.getMaterialOutput())
+                    || recipe.getResult().getAmount() != villagerTrade.getAmountOutput()) {
+                continue;
             }
-            if( identical ){
-                String json_input = villagerTrade.getJsonInput();
-                String json_output = villagerTrade.getJsonOutput();
-                String json_optional = villagerTrade.getJsonOptional();
-                NBTItem nbtItem = new NBTItem(recipe.getResult()); // result
-                NBTItem nbtItem2 = new NBTItem(recipe.getIngredients().get(0)); // ingredient
-                NBTItem nbtItemOptional ;
-                if( recipe . getIngredients().size() > 1 && dublu )
-                    nbtItemOptional = new NBTItem(recipe.getIngredients().get(1));
-                else
-                    nbtItemOptional = new NBTItem(recipe.getIngredients().get(0)); // optional ingredient, if it exists
-                String json2 = nbtItem.toString();
-                String json1 = nbtItem2.toString();
-                String jsonOpt = nbtItemOptional.toString();
-//                getLogger().info("json1: " + json1);
-//                getLogger().info("json2: " + json2);
-//                getLogger().info("json_input: " + json_input);
-//                getLogger().info("json_output: " + json_output);
-                if( !json_input.equals("{}") && json1.equals(json_input) ){
-                    return false;
-                }
-                if( !json_output.equals("{}") && json2.equals(json_output) ){
-                    return false;
-                }
-                if( !json_optional.equals("{}") && jsonOpt.equals(json_optional) && dublu)
-                    return false;
+            // Compare input
+            if (recipe.getIngredients().isEmpty()) continue;
+            ItemStack input1 = recipe.getIngredients().get(0);
+            if (!input1.getType().name().equals(villagerTrade.getMaterialInput())
+                    || input1.getAmount() != villagerTrade.getAmountInput()) {
+                continue;
             }
-
-
+            // Compare optional input if present
+            if (dublu) {
+                if (recipe.getIngredients().size() < 2) continue;
+                ItemStack input2 = recipe.getIngredients().get(1);
+                if (!input2.getType().name().equals(villagerTrade.getMaterialOptional())
+                        || input2.getAmount() != villagerTrade.getAmountOptional()) {
+                    continue;
+                }
+            }
+            // Compare NBT (json) for input, output, and optional
+            NBTItem nbtResult = new NBTItem(recipe.getResult());
+            NBTItem nbtInput1 = new NBTItem(input1);
+            String jsonOutput = villagerTrade.getJsonOutput();
+            String jsonInput = villagerTrade.getJsonInput();
+            if (!jsonOutput.equals("{}") && !nbtResult.toString().equals(jsonOutput)) continue;
+            if (!jsonInput.equals("{}") && !nbtInput1.toString().equals(jsonInput)) continue;
+            if (dublu) {
+                ItemStack input2 = recipe.getIngredients().get(1);
+                NBTItem nbtInput2 = new NBTItem(input2);
+                String jsonOptional = villagerTrade.getJsonOptional();
+                if (!jsonOptional.equals("{}") && !nbtInput2.toString().equals(jsonOptional)) continue;
+            }
+            // All checks passed, trade exists
+            return false;
         }
-        //getLogger().info("tare");
-        return true; // return true if the villager does not have the trade
-    }
+        // No identical trade found
+        return true;
+    } // gpt
 
     private boolean isIdentical(VillagerTrade villagerTrade, boolean identical, boolean dublu, MerchantRecipe recipe) {
         if( recipe.getResult().getType() == Material.valueOf(villagerTrade.getMaterialOutput()) &&
