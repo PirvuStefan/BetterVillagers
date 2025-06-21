@@ -374,7 +374,7 @@ public final class BetterVillagers extends JavaPlugin {
         }
         // No identical trade found
         return true;
-    } // gpt
+    }
 
     private boolean isIdentical(VillagerTrade villagerTrade, boolean identical, boolean dublu, MerchantRecipe recipe) {
         if( recipe.getResult().getType() == Material.valueOf(villagerTrade.getMaterialOutput()) &&
