@@ -171,7 +171,7 @@ public final class BetterVillagers extends JavaPlugin {
                 } else if ( line.startsWith("level:")){
                     level = line.substring(7);
                 } else if (line.startsWith("material_input_optional: ")) {
-                    material_optional = line.substring(24);
+                    material_optional = line.substring(25);
                 } else if (line.startsWith("json_input_optional: ")) {
                     json_optional = line.substring(21);
                 } else if (line.startsWith("amount_input_optional: ")) {
