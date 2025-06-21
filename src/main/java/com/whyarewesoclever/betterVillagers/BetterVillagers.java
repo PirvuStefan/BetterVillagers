@@ -385,7 +385,7 @@ public final class BetterVillagers extends JavaPlugin {
             identical = true;
             //return false; // return false if the villager has the trade
         }
-        if (dublu && recipe.getIngredients().size() > 1 && recipe.getIngredients().get(1).getType() != Material.valueOf(villagerTrade.getMaterialOptional())) {
+        if (dublu && recipe.getIngredients().size() > 1 && recipe.getIngredients().get(1).getType() != Material.valueOf(villagerTrade.getMaterialOptional()) && recipe.getIngredients().get(1).getAmount() != villagerTrade.getAmountOptional() ) {
             identical = false;
         }
         return identical;
