@@ -230,7 +230,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
         Inventory inventory = event.getInventory();
         //boolean block = !view.getTitle().equals(ChatColor.DARK_AQUA + "ᴄʀᴇᴀᴛᴇ ᴄᴜꜱᴛᴏᴍ ᴛʀᴀᴅᴇꜱ");
         boolean block = view.getTitle().equals(ChatColor.DARK_AQUA + "ᴄʀᴇᴀᴛᴇ ᴄᴜꜱᴛᴏᴍ ᴛʀᴀᴅᴇꜱ");
-        getLogger().info(view.getTitle());
+
         if( !block) return;
 
         if (event.getInventory().getHolder() instanceof Player) {
@@ -280,9 +280,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                     String json2 = nbtItem2.toString();
                     String jsonOptional ;
                     jsonOptional = (count == 2) ? nbtItemOptional.toString() : "{}"; // if we have two items, we will use the second item, otherwise we will use an empty json object
-                    getLogger().info(json1);
-                    getLogger().info(json2);
-                    getLogger().info(jsonOptional);
+
                     // save the json to the config file
                     player.closeInventory();
                     HandlerList.unregisterAll(this);
@@ -369,7 +367,7 @@ public class ReloadCommand extends BukkitCommand implements Listener {
                     lines.set(i, "weather: " + weather);
                     //getLogger().info(lines.get(i));
                 }
-                getLogger().info(lines.get(i));
+
             } // da
             java.nio.file.Files.write(new java.io.File(BetterVillagers.getInstance().getDataFolder(), "Drops/" + fileName + ".yml").toPath(), lines);
 

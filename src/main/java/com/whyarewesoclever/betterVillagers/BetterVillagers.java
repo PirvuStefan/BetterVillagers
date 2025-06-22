@@ -73,9 +73,7 @@ public final class BetterVillagers extends JavaPlugin {
         initialiseKeys();
         initialiseMap();
         worldsList.addAll(getConfig().getStringList("Worlds")); // get the list of worlds from the config
-        for (String word : worldsList) {
-            getLogger().info("World: " + word);
-        }
+
         int seconds = getConfig().getInt("CheckForUpdates");
         if( seconds < 3 ) seconds = 3;
         seconds = seconds * 20;
@@ -97,7 +95,7 @@ public final class BetterVillagers extends JavaPlugin {
                 if (file.isFile()) {
                     String name = file.getName();
                     String name_id = name.substring(0, name.length() - 4);
-                    getLogger().info("File name: " + name);
+                   // getLogger().info("File name: " + name);
                     keys.add(name_id);
                 }
             }
@@ -185,12 +183,12 @@ public final class BetterVillagers extends JavaPlugin {
             VillagerTrade vil = new VillagerTrade(material_input, material_output, json_input, json_output, amount_input, amount_output, biomes, bannedWorlds, day_night, weather, professions, level);
             // If optional material and json are provided, set them
 
-                getLogger().info(material_optional + " " + json_optional + " " + amount_optional);
-                vil.setOptional(material_optional, json_optional, amount_optional);
-                getLogger().info(material_input + " " + json_input + " " +  amount_input);
-                getLogger().info("------");
-                getLogger().info(json_input);
-                getLogger().info(String.valueOf(amount_input));
+//                getLogger().info(material_optional + " " + json_optional + " " + amount_optional);
+//                vil.setOptional(material_optional, json_optional, amount_optional);
+//                getLogger().info(material_input + " " + json_input + " " +  amount_input);
+//                getLogger().info("------");
+//                getLogger().info(json_input);
+//                getLogger().info(String.valueOf(amount_input));
 
 
             return vil;
@@ -276,8 +274,7 @@ public final class BetterVillagers extends JavaPlugin {
 
         MerchantRecipe recipe = new MerchantRecipe(result, 0, 10, true);
         recipe.addIngredient(ingredient1);
-        getLogger().info(ingredient1.toString());
-        getLogger().info(ingridient2.toString());
+
 
         if(doubleTrade) recipe.addIngredient(ingridient2);
 
